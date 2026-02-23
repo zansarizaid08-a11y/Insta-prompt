@@ -3,100 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Prompt Finder - Premium Gallery</title>
+    <title>AI Prompt Hub - Premium</title>
     
-    <script type='text/javascript' src='//pl25750104.effectivegatecpm.com/c6/e7/7f/c6e77f5c1efceb275ad6696551624641.js'></script>
-
     <style>
         :root {
-            --primary: #6366f1;
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --primary: #4f46e5;
+            --secondary: #3b82f6;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: var(--bg-gradient); color: var(--text-main); min-height: 100vh; line-height: 1.6; }
-        
-        /* --- NEW HEADER --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); }
+
+        /* Navigation */
         nav {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 1rem 5%; background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px); border-bottom: 1px solid var(--glass-border);
+            padding: 1rem; background: #0f172a; border-bottom: 1px solid #334155;
             position: sticky; top: 0; z-index: 1000;
         }
-        .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.2rem; }
-        .logo img { width: 35px; height: 35px; border-radius: 8px; }
-        
-        .menu-icon { cursor: pointer; display: flex; flex-direction: column; gap: 5px; }
-        .menu-icon span { width: 25px; height: 3px; background: white; border-radius: 2px; }
+        .logo { font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; }
+        .logo img { width: 30px; height: 30px; border-radius: 50%; }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
-        
-        /* Header Section */
+        .container { max-width: 1000px; margin: 0 auto; padding: 15px; }
+
         header { text-align: center; padding: 2rem 0; }
-        h1 { font-size: 2.5rem; margin-bottom: 1rem; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h1 { font-size: 2rem; margin-bottom: 1.5rem; color: #a5b4fc; }
 
-        .search-container { margin: 1rem auto; max-width: 600px; display: flex; gap: 10px; }
-        input[type="text"] { flex: 1; padding: 1rem; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: white; outline: none; }
-        
-        .btn { padding: 0 1.2rem; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; transition: 0.3s; height: 50px; }
-        .search-btn { background: var(--primary); color: white; }
-        .explore-btn { background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--glass-border); }
+        /* Search Box */
+        .search-container { display: flex; gap: 8px; margin-bottom: 20px; }
+        input[type="text"] { 
+            flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #334155; 
+            background: #1e293b; color: white; outline: none; 
+        }
+        .search-btn { background: var(--secondary); color: white; border: none; padding: 0 15px; border-radius: 8px; cursor: pointer; }
 
-        /* --- TWO COLUMN GRID (Aas-Paas Do Image) --- */
+        /* --- GRID LAYOUT (2 Columns for Mobile & Desktop) --- */
         #results-area {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Hamesha 2 column dikhega */
+            gap: 12px;
+            margin-top: 20px;
         }
 
         .prompt-card { 
-            background: var(--glass); border: 1px solid var(--glass-border); 
-            border-radius: 1.2rem; overflow: hidden; display: flex; flex-direction: column;
-            animation: fadeIn 0.5s ease;
+            background: var(--card-bg); border-radius: 12px; overflow: hidden; 
+            display: flex; flex-direction: column; border: 1px solid #334155;
         }
-        @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
 
-        .image-box { position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; }
-        .image-box img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; transition: 0.5s; }
-        .image-box img:hover { transform: scale(1.05); }
+        .image-box { position: relative; width: 100%; aspect-ratio: 4/5; }
+        .image-box img { width: 100%; height: 100%; object-fit: cover; }
 
         .video-label { 
-            position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); 
-            color: #ff4d4d; border: 1px solid #ff4d4d; padding: 3px 8px; border-radius: 20px; font-size: 10px; font-weight: bold; 
+            position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); 
+            color: #ff4d4d; border: 1px solid #ff4d4d; padding: 2px 6px; 
+            border-radius: 4px; font-size: 10px; font-weight: bold; 
         }
 
-        .content-box { padding: 1rem; flex-grow: 1; display: flex; flex-direction: column; }
-        .prompt-text { 
-            background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; 
-            font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;
-            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+        .content-box { padding: 10px; text-align: left; }
+        .prompt-title { 
+            font-size: 0.85rem; color: var(--text-muted); 
+            margin-bottom: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
-        .copy-btn { background: var(--primary); color: white; border: none; padding: 8px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; }
 
-        /* Ads Placement */
-        .ad-container { grid-column: span 2; margin: 20px 0; text-align: center; }
+        /* --- BUTTONS --- */
+        .btn-group { display: flex; gap: 5px; flex-wrap: wrap; }
+        .btn-card { 
+            flex: 1; padding: 8px 5px; border-radius: 6px; border: none; 
+            font-size: 0.75rem; font-weight: 600; cursor: pointer; text-align: center;
+            text-decoration: none; display: inline-block;
+        }
+        .copy-btn { background: #334155; color: white; }
+        .watch-btn { background: var(--secondary); color: white; }
 
-        /* Blog/Vlog Section */
-        .vlog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 40px; }
-        .vlog-card { padding: 1.2rem; border-radius: 1rem; border: 1px solid var(--glass-border); background: var(--glass); }
+        /* Toast Notification */
+        #toast { 
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
+            background: #10b981; color: white; padding: 10px 20px; 
+            border-radius: 8px; display: none; z-index: 2000;
+        }
 
-        /* Navigation Views */
-        .view { display: none; }
-        .active { display: block; }
-
-        /* Modal */
-        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; padding: 20px; overflow-y: auto; }
-        .modal-content { max-width: 500px; margin: 50px auto; }
-        
-        #toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #10b981; padding: 10px 25px; border-radius: 50px; display: none; }
-
-        /* Mobile View (Ek ke niche ek) */
-        @media (max-width: 600px) {
-            #results-area { grid-template-columns: 1fr; }
-            .ad-container { grid-column: span 1; }
-            h1 { font-size: 1.8rem; }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.5rem; }
+            .btn-card { font-size: 0.7rem; padding: 6px 2px; }
         }
     </style>
 </head>
@@ -104,141 +95,86 @@
 
 <nav>
     <div class="logo">
-        <img src="https://via.placeholder.com/50" alt="Logo"> <span>AI PROMPT HUB</span>
+        <img src="https://via.placeholder.com/50" alt="Logo"> AI PROMPT HUB
     </div>
-    <div class="menu-icon" onclick="toggleMenu()">
-        <span></span><span></span><span></span>
-    </div>
+    <div style="font-size: 1.5rem;">&#9776;</div>
 </nav>
 
 <div class="container">
-    <div id="home-view" class="view active">
-        <header>
-            <h1>Discover Premium Prompts</h1>
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Paste Instagram Link...">
-                <button class="btn search-btn" onclick="handleSearch()">Search</button>
-                <button class="btn explore-btn" onclick="renderAll()">Explore</button>
-            </div>
-        </header>
-
-        <div style="text-align:center; margin-bottom: 20px;">
-            <a href="YOUR_ADSTERRA_DIRECT_LINK" target="_blank" class="btn search-btn" style="text-decoration:none; display:inline-flex; align-items:center; background:#ff4d4d;">🔥 TRENDING AI TOOLS (2026)</a>
+    <header>
+        <h1>Discover Premium Prompts</h1>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Paste Instagram Link...">
+            <button class="search-btn" onclick="handleSearch()">Search</button>
         </div>
+        
+        <a href="#" style="background:#ef4444; color:white; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:bold; font-size:0.9rem;">
+            🔥 TRENDING AI TOOLS (2026)
+        </a>
+    </header>
 
-        <div id="results-area"></div>
-
-        <section style="margin-top: 60px;">
-            <h2 style="text-align:center">AI Creative Vlogs</h2>
-            <div class="vlog-grid">
-                <div class="vlog-card"><h3>Lighting</h3><p>Master cinematic lighting in AI.</p></div>
-                <div class="vlog-card"><h3>Money</h3><p>How to sell your AI art prompts.</p></div>
-                <div class="vlog-card"><h3>Future</h3><p>AI Video is the next big thing.</p></div>
-            </div>
-        </section>
-    </div>
-
-    <div id="privacy-view" class="view glass" style="padding:2rem;">
-        <button onclick="showPage('home-view')" class="btn explore-btn">← Back</button>
-        <h2 style="margin-top:20px;">Privacy Policy</h2>
-        <p>Your privacy is important. We don't store your personal data.</p>
-    </div>
-</div>
-
-<div id="modal">
-    <div class="modal-content">
-        <span onclick="closeModal()" style="color:white; font-size:2rem; cursor:pointer; float:right;">×</span>
-        <div id="modal-data"></div>
-    </div>
-</div>
-
-<footer>
-    <div style="text-align:center; padding: 40px; border-top: 1px solid var(--glass-border); margin-top: 50px;">
-        <div style="display:flex; justify-content:center; gap:20px; margin-bottom:15px; font-size:0.9rem;">
-            <a onclick="showPage('privacy-view')" style="cursor:pointer">Privacy</a>
-            <a onclick="showPage('home-view')" style="cursor:pointer">Home</a>
+    <div id="results-area">
         </div>
-        <p style="color:var(--text-muted); font-size:0.8rem;">&copy; 2026 AI Prompt Finder</p>
-    </div>
-</footer>
+</div>
 
 <div id="toast">Copied to Clipboard!</div>
 
 <script>
-    let db = [];
+    // Sample Data (Yeh aapki database.json se aayega)
+    let db = [
+        {
+            "instagram": "https://instagram.com/reel/sample1",
+            "data": [
+                {
+                    "image": "https://via.placeholder.com/400x500",
+                    "prompt": "Create a 3D illustration of a young couple sitting on a wooden log with heart bokeh background..."
+                },
+                {
+                    "image": "https://via.placeholder.com/400x500",
+                    "prompt": "Cyberpunk style portrait of a girl with neon lights..."
+                }
+            ]
+        }
+    ];
 
     async function init() {
         try {
             const res = await fetch('./database.json');
-            db = await res.json();
-            renderData(db);
-        } catch (e) { console.log("DB Load Error"); }
+            if(res.ok) db = await res.json();
+        } catch (e) { console.log("Using local sample data"); }
+        renderData(db);
     }
 
     function renderData(list) {
         const area = document.getElementById('results-area');
         area.innerHTML = '';
         
-        let count = 0;
         list.forEach((user) => {
             user.data.forEach(item => {
-                // Card UI
                 const card = document.createElement('div');
                 card.className = 'prompt-card';
                 card.innerHTML = `
                     <div class="image-box">
                         <span class="video-label">▶ REEL</span>
-                        <img src="${item.image}" onclick="openDetail('${item.image}', \`${item.prompt}\`, '${user.instagram}')">
+                        <img src="${item.image}">
                     </div>
                     <div class="content-box">
-                        <div class="prompt-text">${item.prompt}</div>
-                        <button class="copy-btn" onclick="copyText(\`${item.prompt}\`)">Copy Prompt</button>
+                        <div class="prompt-title">/ prompt-text</div>
+                        <div class="btn-group">
+                            <button class="btn-card copy-btn" onclick="copyText(\`${item.prompt}\`)">Copy Prompt</button>
+                            <a href="${user.instagram}" target="_blank" class="btn-card watch-btn">Watch Video</a>
+                        </div>
                     </div>
                 `;
                 area.appendChild(card);
-                count++;
-
-                // Native Banner Ad after every 4th card
-                if(count % 4 === 0) {
-                    const ad = document.createElement('div');
-                    ad.className = 'ad-container glass';
-                    ad.innerHTML = `<script async="async" data-cfasync="false" src="//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js"><\/script><div id="container-15b9c32f55639f994ab49336ecb3dd5c"></div>`;
-                    area.appendChild(ad);
-                }
             });
         });
     }
-
-    function renderAll() { renderData(db); }
 
     function handleSearch() {
         const val = document.getElementById('search-input').value.toLowerCase();
         const filtered = db.filter(u => u.instagram.toLowerCase().includes(val));
         renderData(filtered);
-    }
-
-    function openDetail(img, prompt, insta) {
-        const modal = document.getElementById('modal');
-        const data = document.getElementById('modal-data');
-        data.innerHTML = `
-            <img src="${img}" style="width:100%; border-radius:15px; margin-bottom:15px;">
-            <a href="${insta}" target="_blank" class="btn explore-btn" style="width:100%; margin-bottom:15px; color:#ff4d4d; border-color:#ff4d4d; justify-content:center; text-decoration:none;">WATCH ON INSTAGRAM</a>
-            <div class="glass" style="padding:15px; border-radius:12px;">
-                <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:15px;">${prompt}</p>
-                <button class="btn search-btn" style="width:100%" onclick="copyText(\`${prompt}\`)">COPY FULL PROMPT</button>
-            </div>
-        `;
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() { document.getElementById('modal').style.display='none'; document.body.style.overflow='auto'; }
-
-    function toggleMenu() { alert("Menu: Privacy Policy & Terms links are in the Footer!"); }
-
-    function showPage(id) {
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
     }
 
     function copyText(txt) {
