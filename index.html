@@ -3,281 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Prompt Explorer</title>
+    <title>AI Prompt Finder - Discover the Magic</title>
     <style>
         :root {
             --primary: #6366f1;
-            --secondary: #a855f7;
-            --glass: rgba(255, 255, 255, 0.1);
-            --text: #ffffff;
+            --primary-hover: #4f46e5;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f172a, #1e1b4b);
-            color: var(--text);
-            margin: 0;
-            padding: 0;
+            background: var(--bg-gradient);
+            color: var(--text-main);
             min-height: 100vh;
+            line-height: 1.6;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+
+        .glass { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 1.5rem; }
+
+        header { text-align: center; padding: 3rem 0; }
+
+        h1 {
+            font-size: 3rem; font-weight: 800; margin-bottom: 1rem;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        header {
-            text-align: center;
-            padding: 40px 0;
+        .search-container { margin: 2rem auto; max-width: 600px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+        input[type="text"] {
+            flex: 1; min-width: 250px; padding: 1.25rem; border-radius: 1rem;
+            border: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.03); color: white; outline: none;
         }
 
-        .search-section {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            margin-bottom: 30px;
-            text-align: center;
+        .btn {
+            padding: 0 1.5rem; border-radius: 0.75rem; border: none; font-weight: 600; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center; height: 55px;
         }
 
-        input {
-            width: 70%;
-            padding: 12px 20px;
-            border-radius: 30px;
-            border: none;
-            outline: none;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            font-size: 16px;
+        .search-btn { background: var(--primary); color: white; }
+        .explore-btn { background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--glass-border); }
+        .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+        /* Explore Style Card (Like Screenshot) */
+        .prompt-card {
+            display: flex; margin-bottom: 2rem; overflow: hidden; min-height: 200px;
         }
 
-        button {
-            padding: 12px 25px;
-            border-radius: 30px;
-            border: none;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin: 5px;
+        .image-side {
+            width: 35%; position: relative; overflow: hidden;
         }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+        .image-side img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; transition: 0.5s; }
+        .image-side img:hover { transform: scale(1.05); }
+
+        .video-overlay-btn {
+            position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7);
+            color: #ff4d4d; border: 1px solid #ff4d4d; padding: 4px 10px; border-radius: 20px;
+            font-size: 11px; text-decoration: none; font-weight: bold; z-index: 2;
         }
 
-        /* Explore View Styling (Screenshot Style) */
-        .explore-item {
-            background: var(--glass);
-            border-radius: 15px;
-            margin-bottom: 25px;
-            display: flex;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: 0.3s;
-        }
-
-        .image-container {
-            width: 40%;
-            position: relative;
-            min-height: 250px;
-        }
-
-        .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            cursor: pointer;
-        }
-
-        .video-btn {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            color: #ff0050;
-            border: 1px solid #ff0050;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .content-container {
-            width: 60%;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .content-container h3 { margin-top: 0; color: #60a5fa; }
+        .content-side { width: 65%; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; }
 
         .prompt-box {
-            background: rgba(0,0,0,0.3);
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 14px;
-            margin: 10px 0;
-            border-left: 4px solid var(--primary);
+            background: rgba(0, 0, 0, 0.2); padding: 1rem; border-radius: 0.75rem;
+            font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Modal / Detail View */
-        #detailView {
-            display: none;
-            position: fixed;
-            top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
-            overflow-y: auto;
-            padding: 40px 20px;
+        .copy-btn {
+            background: var(--primary); border: none; color: white; padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem; cursor: pointer; font-size: 0.85rem; width: fit-content;
         }
 
-        .modal-content {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #1e293b;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
+        /* Modal / Detail Page Styling */
+        #detail-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 2000; overflow-y: auto; padding: 2rem 1rem;
         }
 
-        @media (max-width: 600px) {
-            .explore-item { flex-direction: column; }
-            .image-container, .content-container { width: 100%; }
-            input { width: 100%; margin-bottom: 10px; }
+        .modal-body { max-width: 600px; margin: 0 auto; }
+        .modal-image { width: 100%; border-radius: 1.5rem; margin-bottom: 1.5rem; border: 1px solid var(--glass-border); }
+        .close-modal { float: right; color: white; font-size: 2rem; cursor: pointer; }
+
+        /* Blog Section */
+        .blog-section { margin-top: 5rem; }
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .blog-card { padding: 1.5rem; cursor: pointer; }
+        .blog-card h3 { color: #818cf8; margin-bottom: 0.5rem; }
+
+        footer { margin-top: 5rem; padding: 3rem 0; border-top: 1px solid var(--glass-border); text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
+
+        #toast {
+            position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+            background: #10b981; color: white; padding: 0.8rem 2rem; border-radius: 2rem;
+            display: none; z-index: 3000; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
-        footer { text-align: center; padding: 50px; opacity: 0.6; font-size: 14px; }
+        @media (max-width: 768px) {
+            .prompt-card { flex-direction: column; }
+            .image-side, .content-side { width: 100%; }
+            h1 { font-size: 2.2rem; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header>
-        <h1>AI Prompt Hub</h1>
-        <p>Search by Instagram or Explore All Designs</p>
-    </header>
+    <div id="main-view">
+        <header>
+            <h1>AI Prompt Finder</h1>
+            <p style="color: var(--text-muted)">Search Instagram URL or Explore our prompt library.</p>
+            
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="https://instagram.com/reel/...">
+                <button class="btn search-btn" onclick="handleSearch()">Search</button>
+                <button class="btn explore-btn" onclick="renderAll()">Explore All</button>
+            </div>
+        </header>
 
-    <div class="search-section">
-        <input type="text" id="instaInput" placeholder="Paste Instagram URL here...">
-        <button onclick="searchData()">Search</button>
-        <button onclick="loadExplore()" style="background: #334155;">Explore All</button>
+        <div id="results-area"></div>
+
+        <section class="blog-section">
+            <h2 style="text-align: center;">AI Insights</h2>
+            <div class="blog-grid">
+                <div class="blog-card glass"><h3>Lighting</h3><p>Master cinematic lighting.</p></div>
+                <div class="blog-card glass"><h3>Styles</h3><p>Top AI styles in 2026.</p></div>
+                <div class="blog-card glass"><h3>Tips</h3><p>Prompt engineering guide.</p></div>
+            </div>
+        </section>
     </div>
 
-    <div id="displayArea"></div>
-
-    <hr style="margin: 50px 0; border: 0.5px solid rgba(255,255,255,0.1);">
-    <div id="footer-links" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; font-size: 13px;">
-        <div>
-            <h4>Pages</h4>
-            <p>Privacy Policy</p>
-            <p>Terms of Service</p>
-            <p>Disclaimer</p>
-        </div>
-        <div>
-            <h4>Latest Blogs</h4>
-            <p>How to use AI Prompts</p>
-            <p>Best Instagram Reel Ideas</p>
-        </div>
-    </div>
-
-    <footer>© 2026 AI Hub - GitHub Pages Ready</footer>
-</div>
-
-<div id="detailView">
-    <div class="modal-content">
-        <button onclick="closeModal()" style="position: absolute; right: 15px; top: 15px; z-index: 10;">✕ Close</button>
-        <div id="modalBody"></div>
+    <div id="terms-view" style="display:none;" class="glass container mt-4">
+        <span onclick="showHome()" style="cursor:pointer; color:var(--primary);">← Back</span>
+        <h2 style="margin: 1rem 0;">Terms & Conditions</h2>
+        <p>Your original terms content here...</p>
     </div>
 </div>
+
+<div id="detail-modal">
+    <div class="modal-body">
+        <span class="close-modal" onclick="closeModal()">×</span>
+        <div id="modal-content"></div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-links">
+        <a href="#" onclick="showTerms()">Terms</a>
+        <a href="#" onclick="showPrivacy()">Privacy</a>
+    </div>
+    <p style="color: var(--text-muted); font-size: 0.8rem;">&copy; 2026 AI Prompt Finder</p>
+</footer>
+
+<div id="toast">Copied to clipboard!</div>
 
 <script>
-    let dbData = [];
+    let database = [];
 
-    // Fetch Database
     async function init() {
         try {
             const res = await fetch('./database.json');
-            dbData = await res.json();
-        } catch (e) {
-            console.error("Database not found");
-        }
+            database = await res.json();
+            renderAll(); // Initially show all
+        } catch (e) { console.log("DB Load Error"); }
     }
 
-    function searchData() {
-        const url = document.getElementById('instaInput').value.trim();
-        const found = dbData.find(item => item.instagram === url);
-        renderResults(found ? [found] : []);
-    }
-
-    function loadExplore() {
-        renderResults(dbData);
-    }
-
-    function renderResults(dataList) {
-        const container = document.getElementById('displayArea');
-        container.innerHTML = '';
-
-        if (dataList.length === 0) {
-            container.innerHTML = '<p style="text-align:center;">No results found.</p>';
-            return;
-        }
-
-        dataList.forEach(user => {
+    function renderResults(list) {
+        const area = document.getElementById('results-area');
+        area.innerHTML = '';
+        
+        list.forEach(user => {
             user.data.forEach(item => {
                 const card = document.createElement('div');
-                card.className = 'explore-item';
+                card.className = 'prompt-card glass';
                 card.innerHTML = `
-                    <div class="image-container">
-                        <a href="${user.instagram}" target="_blank" class="video-btn">▶ Watch Video</a>
-                        <img src="${item.image}" onclick="openModal('${item.image}', \`${item.prompt}\`, '${user.instagram}')">
+                    <div class="image-side">
+                        <a href="${user.instagram}" target="_blank" class="video-overlay-btn">▶ Watch Video</a>
+                        <img src="${item.image}" onclick="openDetail('${item.image}', \`${item.prompt}\`, '${user.instagram}')">
                     </div>
-                    <div class="content-container">
-                        <h3>AI Prompt Design</h3>
-                        <p style="font-size:12px; opacity:0.7;">Source: ${user.instagram.split('/')[3]}</p>
-                        <div class="prompt-box">${item.prompt}</div>
-                        <button onclick="copyPrompt(\`${item.prompt}\`)">Copy Prompt</button>
+                    <div class="content-side">
+                        <p style="font-size: 0.75rem; color: var(--primary); margin-bottom: 5px;">TRENDING PROMPT</p>
+                        <div class="prompt-box">${item.prompt.substring(0, 100)}...</div>
+                        <button class="copy-btn" onclick="copyText(\`${item.prompt}\`)">Copy Prompt</button>
                     </div>
                 `;
-                container.appendChild(card);
+                area.appendChild(card);
             });
         });
     }
 
-    function openModal(img, prompt, url) {
-        const modal = document.getElementById('detailView');
-        const body = document.getElementById('modalBody');
-        body.innerHTML = `
-            <img src="${img}" style="width:100%;">
-            <div style="padding:20px;">
-                <a href="${url}" target="_blank" style="color:#ff0050; text-decoration:none; font-weight:bold;">▶ Watch Example Video</a>
-                <div class="prompt-box" style="margin-top:20px;">${prompt}</div>
-                <button onclick="copyPrompt(\`${prompt}\`)" style="width:100%;">Copy This Prompt</button>
+    function renderAll() { renderResults(database); }
+
+    function handleSearch() {
+        const query = document.getElementById('search-input').value.toLowerCase();
+        const filtered = database.filter(u => u.instagram.toLowerCase().includes(query));
+        renderResults(filtered);
+    }
+
+    function openDetail(img, prompt, insta) {
+        const modal = document.getElementById('detail-modal');
+        const content = document.getElementById('modal-content');
+        content.innerHTML = `
+            <img src="${img}" class="modal-image">
+            <a href="${insta}" target="_blank" class="btn explore-btn" style="width:100%; margin-bottom:1rem; color:#ff4d4d; border-color:#ff4d4d;">
+               ▶ View on Instagram (Example Video)
+            </a>
+            <div class="glass" style="padding:1.5rem;">
+                <p style="margin-bottom:1rem; color: var(--text-muted);">${prompt}</p>
+                <button class="btn search-btn" style="width:100%" onclick="copyText(\`${prompt}\`)">Copy Prompt</button>
             </div>
         `;
         modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
     }
 
     function closeModal() {
-        document.getElementById('detailView').style.display = 'none';
+        document.getElementById('detail-modal').style.display = 'none';
+        document.body.style.overflow = 'auto';
     }
 
-    function copyPrompt(text) {
+    function copyText(text) {
         navigator.clipboard.writeText(text);
-        alert('Prompt copied to clipboard!');
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 2000);
     }
+
+    // Navigation Simple Logic
+    function showTerms() { document.getElementById('main-view').style.display='none'; document.getElementById('terms-view').style.display='block'; }
+    function showHome() { document.getElementById('main-view').style.display='block'; document.getElementById('terms-view').style.display='none'; }
 
     window.onload = init;
 </script>
-
 </body>
 </html>
