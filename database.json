@@ -1,0 +1,24 @@
+[
+  {
+    "instagram": "https://instagram.com/user1",
+    "data": [
+      {
+        "image": "https://picsum.photos/400/600?random=1",
+        "prompt": "Create a 3D glassmorphism style avatar with blue neon light background, high quality, 8k render."
+      },
+      {
+        "image": "https://picsum.photos/400/600?random=2",
+        "prompt": "An artistic portrait of a robot holding a flower in a cyberpunk city, soft lighting, cinematic style."
+      }
+    ]
+  },
+  {
+    "instagram": "https://instagram.com/user2",
+    "data": [
+      {
+        "image": "https://picsum.photos/400/600?random=3",
+        "prompt": "Hyper-realistic desert landscape with floating islands and a golden sunset, 8k resolution."
+      }
+    ]
+  }
+]
