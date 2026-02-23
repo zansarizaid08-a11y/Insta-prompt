@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Prompt Finder | Premium Gallery</title>
-    <script type='text/javascript' src='//pl25750104.effectivegatecpm.com/c6/e7/7f/c6e77f5c1efceb275ad6696551624641.js'></script>
+    <title>AI Prompt Finder - Discover the Magic</title>
     
+    <script type='text/javascript' src='//pl25750104.effectivegatecpm.com/c6/e7/7f/c6e77f5c1efceb275ad6696551624641.js'></script>
+
     <style>
         :root {
             --primary: #6366f1;
@@ -18,147 +19,164 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: var(--bg-gradient); color: var(--text-main); min-height: 100vh; line-height: 1.6; }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
         .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
-        .glass { background: var(--glass); backdrop-filter: blur(15px); border: 1px solid var(--glass-border); border-radius: 1.5rem; }
+        .glass { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 1.5rem; }
 
-        header { text-align: center; padding: 4rem 0 2rem; }
-        h1 { font-size: 3.5rem; font-weight: 800; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.05em; }
+        header { text-align: center; padding: 3rem 0; }
+        h1 { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* Navigation & Trending */
-        .trending-box { text-align: center; margin-bottom: 2rem; }
-        .direct-btn { display: inline-flex; align-items: center; padding: 12px 24px; background: #ff4d4d; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 14px; animation: pulse 2s infinite; }
+        /* Trending/Ad Button */
+        .trending-container { text-align: center; margin-bottom: 20px; }
+        .direct-link-btn { display: inline-block; padding: 12px 24px; background: #ff4d4d; color: white; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 14px; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        /* Search Section */
-        .search-container { margin: 2rem auto; max-width: 650px; display: flex; gap: 12px; }
-        input[type="text"] { flex: 1; padding: 1.25rem; border-radius: 1.2rem; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.03); color: white; outline: none; font-size: 1rem; }
-        .btn { padding: 0 1.8rem; border-radius: 1rem; border: none; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; height: 60px; }
+        .search-container { margin: 2rem auto; max-width: 600px; display: flex; gap: 10px; flex-wrap: wrap; }
+        input[type="text"] { flex: 1; min-width: 250px; padding: 1.25rem; border-radius: 1rem; border: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.03); color: white; outline: none; }
+
+        .btn { padding: 0 1.5rem; border-radius: 0.75rem; border: none; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; height: 55px; }
         .search-btn { background: var(--primary); color: white; }
         .explore-btn { background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--glass-border); }
+        .btn:hover { transform: translateY(-2px); opacity: 0.9; }
 
-        /* Results Card (Screenshot Style) */
-        .prompt-card { display: flex; margin-bottom: 1.5rem; overflow: hidden; min-height: 240px; }
-        .image-side { width: 40%; position: relative; }
-        .image-side img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
-        .video-btn { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.8); color: #ff4d4d; border: 1px solid #ff4d4d; padding: 6px 14px; border-radius: 30px; font-size: 12px; text-decoration: none; font-weight: bold; }
-        .content-side { width: 60%; padding: 2rem; display: flex; flex-direction: column; justify-content: center; }
-        .prompt-box { background: rgba(0,0,0,0.3); padding: 1.2rem; border-radius: 1rem; font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.2rem; border: 1px solid rgba(255,255,255,0.05); }
-        .copy-btn { background: var(--primary); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 0.8rem; cursor: pointer; width: fit-content; }
+        /* Native Ad Slot */
+        .native-ad { margin: 20px 0; text-align: center; width: 100%; min-height: 100px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border-radius: 1rem; }
 
-        /* Native Ad Slot - Placed below each card */
-        .native-ad-container { margin: 1rem 0 3rem; text-align: center; width: 100%; }
+        /* Prompt Card */
+        .prompt-card { display: flex; margin-bottom: 2rem; overflow: hidden; min-height: 200px; }
+        .image-side { width: 35%; position: relative; overflow: hidden; }
+        .image-side img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; transition: 0.5s; }
+        .video-overlay-btn { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: #ff4d4d; border: 1px solid #ff4d4d; padding: 4px 10px; border-radius: 20px; font-size: 11px; text-decoration: none; font-weight: bold; z-index: 2; }
+        .content-side { width: 65%; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; }
+        .prompt-box { background: rgba(0, 0, 0, 0.2); padding: 1rem; border-radius: 0.75rem; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.05); }
+        .copy-btn { background: var(--primary); border: none; color: white; padding: 0.6rem 1.2rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.85rem; width: fit-content; }
 
-        /* Vlog/Blog Section */
-        .vlog-section { margin-top: 5rem; }
-        .vlog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-        .vlog-card { padding: 1.5rem; transition: 0.3s; cursor: pointer; }
-        .vlog-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-5px); }
-        .vlog-card h3 { color: #818cf8; margin-bottom: 10px; font-size: 1.2rem; }
-        .vlog-card p { font-size: 0.85rem; color: var(--text-muted); }
+        /* Blog Section */
+        .blog-section { margin-top: 5rem; }
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .blog-card { padding: 1.5rem; transition: 0.3s; cursor: default; }
+        .blog-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.1); }
+        .blog-card h3 { color: #818cf8; margin-bottom: 0.75rem; }
+        .blog-card p { font-size: 0.85rem; color: var(--text-muted); }
 
-        /* Legal Management */
-        .legal-view { display: none; padding: 3rem; margin-top: 2rem; }
-        .active { display: block; }
+        /* Legal Views */
+        .legal-content { display: none; padding: 2rem; margin-top: 2rem; }
+        .active-view { display: block; }
 
-        footer { margin-top: 6rem; padding: 4rem 0; border-top: 1px solid var(--glass-border); text-align: center; }
-        .footer-links { display: flex; justify-content: center; gap: 2.5rem; margin-bottom: 1.5rem; }
+        footer { margin-top: 5rem; padding: 3rem 0; border-top: 1px solid var(--glass-border); text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
         .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; cursor: pointer; }
+        .footer-links a:hover { color: white; }
 
-        /* Modal Detail View */
-        #detail-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 9999; overflow-y: auto; padding: 2rem; }
-        .modal-inner { max-width: 650px; margin: 0 auto; position: relative; }
-        #toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #10b981; padding: 12px 30px; border-radius: 50px; display: none; z-index: 10000; }
+        /* Modal */
+        #detail-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; overflow-y: auto; padding: 2rem 1rem; }
+        .modal-body { max-width: 600px; margin: 0 auto; }
+        .modal-image { width: 100%; border-radius: 1.5rem; margin-bottom: 1.5rem; border: 1px solid var(--glass-border); }
+        #toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 0.8rem 2rem; border-radius: 2rem; display: none; z-index: 3000; }
 
-        @media (max-width: 768px) { .prompt-card { flex-direction: column; } .image-side, .content-side { width: 100%; } h1 { font-size: 2.5rem; } }
+        @media (max-width: 768px) { .prompt-card { flex-direction: column; } .image-side, .content-side { width: 100%; } h1 { font-size: 2.2rem; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="home-view" class="legal-view active">
+    <div id="main-view" class="legal-content active-view">
         <header>
             <h1>AI Prompt Finder</h1>
-            <p style="color: var(--text-muted)">The ultimate gallery for high-quality AI image prompts.</p>
+            <p style="color: var(--text-muted)">Search Instagram URL or Explore our prompt library.</p>
         </header>
 
-        <div class="trending-box">
-            <a href="https://www.effectivegatecpm.com/z5q9i3x45w?key=06adf9977ec69fdce5fef572556a5d88" target="_blank" class="direct-btn">
-               🔥 CHECK TRENDING AI TOOLS (2026)
+        <div class="trending-container">
+            <a href="https://www.effectivegatecpm.com/z5q9i3x45w?key=06adf9977ec69fdce5fef572556a5d88" target="_blank" class="direct-link-btn">
+                🔥 CLICK HERE FOR TRENDING AI TOOLS
             </a>
         </div>
 
         <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search by Instagram URL...">
+            <input type="text" id="search-input" placeholder="https://instagram.com/reel/...">
             <button class="btn search-btn" onclick="handleSearch()">Search</button>
             <button class="btn explore-btn" onclick="renderAll()">Explore All</button>
         </div>
 
         <div id="results-area"></div>
 
-        <section class="vlog-section">
+        <section class="blog-section">
             <h2 style="text-align: center;">AI Creative Vlogs</h2>
-            <div class="vlog-grid">
-                <div class="vlog-card glass">
-                    <h3>01. Lighting Secrets</h3>
-                    <p>How to use 'Volumetric Lighting' prompts to create 3D cinematic depth in AI images.</p>
+            <div class="blog-grid">
+                <div class="blog-card glass">
+                    <h3>01. Lighting Art</h3>
+                    <p>Learn how to use Cinematic Lighting prompts to create professional 3D AI avatars.</p>
                 </div>
-                <div class="vlog-card glass">
-                    <h3>02. Prompt Engineering</h3>
-                    <p>A deep dive into why 'Negative Prompts' are more important than your main text.</p>
+                <div class="blog-card glass">
+                    <h3>02. Prompt Secrets</h3>
+                    <p>Why descriptive keywords like "Hyper-realistic" and "8k" change your output quality.</p>
                 </div>
-                <div class="vlog-card glass">
-                    <h3>03. Monetization 101</h3>
-                    <p>Vlog: How I made $500 selling AI-generated stock photos on Adobe Stock.</p>
+                <div class="blog-card glass">
+                    <h3>03. Video AI Trends</h3>
+                    <p>A look into 2026: How AI video generation is taking over social media reels.</p>
                 </div>
-                <div class="vlog-card glass">
-                    <h3>04. AI Video Future</h3>
-                    <p>Predicting the shift from image prompts to full cinematic video generation in 2026.</p>
+                <div class="blog-card glass">
+                    <h3>04. Making Money</h3>
+                    <p>Vlog: How creators are selling AI prompts and generated art on digital marketplaces.</p>
                 </div>
             </div>
         </section>
     </div>
 
-    <div id="privacy-view" class="legal-view glass">
-        <span onclick="showPage('home-view')" style="cursor:pointer; color:var(--primary);">← Back to Gallery</span>
-        <h2 style="margin-top:20px;">Privacy Policy</h2>
-        <p style="margin-top:15px; color:var(--text-muted);">We do not collect personal data. All searches are processed in real-time. Ad data is managed by Adsterra.</p>
+    <div id="privacy-view" class="legal-content glass">
+        <span onclick="showPage('main-view')" style="cursor:pointer; color:var(--primary);">← Back</span>
+        <h2 style="margin: 1rem 0;">Privacy Policy</h2>
+        <p>We do not store any user data. All searches are processed in real-time. We use Adsterra for monetization which may use cookies for personalized ads.</p>
     </div>
 
-    <div id="terms-view" class="legal-view glass">
-        <span onclick="showPage('home-view')" style="cursor:pointer; color:var(--primary);">← Back to Gallery</span>
-        <h2 style="margin-top:20px;">Terms & Conditions</h2>
-        <p style="margin-top:15px; color:var(--text-muted);">Content is for inspiration. Users are responsible for how they use the copied AI prompts.</p>
+    <div id="terms-view" class="legal-content glass">
+        <span onclick="showPage('main-view')" style="cursor:pointer; color:var(--primary);">← Back</span>
+        <h2 style="margin: 1rem 0;">Terms & Conditions</h2>
+        <p>The prompts provided here are for educational purposes. We are not responsible for how you use these prompts on external AI platforms.</p>
+    </div>
+
+    <div id="disclaimer-view" class="legal-content glass">
+        <span onclick="showPage('main-view')" style="cursor:pointer; color:var(--primary);">← Back</span>
+        <h2 style="margin: 1rem 0;">Disclaimer</h2>
+        <p>This website is not affiliated with Instagram. All images and content shown are the property of their respective owners.</p>
     </div>
 </div>
 
 <div id="detail-modal">
-    <div class="modal-inner">
-        <span onclick="closeModal()" style="position:fixed; top:20px; right:30px; font-size:3rem; cursor:pointer;">×</span>
+    <div class="modal-body">
+        <span class="close-modal" onclick="closeModal()" style="float:right; cursor:pointer; font-size:2rem;">×</span>
         <div id="modal-content"></div>
     </div>
 </div>
 
 <footer>
     <div class="footer-links">
-        <a onclick="showPage('home-view')">Home</a>
+        <a onclick="showPage('main-view')">Home</a>
         <a onclick="showPage('privacy-view')">Privacy Policy</a>
         <a onclick="showPage('terms-view')">Terms</a>
+        <a onclick="showPage('disclaimer-view')">Disclaimer</a>
     </div>
     <p style="color: var(--text-muted); font-size: 0.8rem;">&copy; 2026 AI Prompt Finder. All Rights Reserved.</p>
 </footer>
 
-<div id="toast">Prompt copied to clipboard!</div>
+<div id="toast">Copied to clipboard!</div>
 
 <script>
-    let db = [];
+    let database = [];
 
     async function init() {
         try {
             const res = await fetch('./database.json');
-            db = await res.json();
+            database = await res.json();
             renderAll();
-        } catch (e) { console.error("DB Load Error"); }
+        } catch (e) { console.log("DB Load Error"); }
     }
 
     function renderResults(list) {
@@ -167,24 +185,24 @@
         
         list.forEach((user, index) => {
             user.data.forEach(item => {
-                // Card Creation
                 const card = document.createElement('div');
                 card.className = 'prompt-card glass';
                 card.innerHTML = `
                     <div class="image-side">
-                        <a href="${user.instagram}" target="_blank" class="video-btn">▶ Watch Video</a>
+                        <a href="${user.instagram}" target="_blank" class="video-overlay-btn">▶ Watch Video</a>
                         <img src="${item.image}" onclick="openDetail('${item.image}', \`${item.prompt}\`, '${user.instagram}')">
                     </div>
                     <div class="content-side">
+                        <p style="font-size: 0.75rem; color: var(--primary); margin-bottom: 5px;">TRENDING PROMPT</p>
                         <div class="prompt-box">${item.prompt.substring(0, 100)}...</div>
                         <button class="copy-btn" onclick="copyText(\`${item.prompt}\`)">Copy Prompt</button>
                     </div>
                 `;
                 area.appendChild(card);
 
-                // Adding Native Ad after each card (As requested)
+                // Adding Native Ad after each post
                 const adSlot = document.createElement('div');
-                adSlot.className = 'native-ad-container';
+                adSlot.className = 'native-ad';
                 adSlot.innerHTML = `
                     <div id="container-15b9c32f55639f994ab49336ecb3dd5c">
                         <script async="async" data-cfasync="false" src="//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js"><\/script>
@@ -195,25 +213,25 @@
         });
     }
 
-    function renderAll() { renderResults(db); }
+    function renderAll() { renderResults(database); }
 
     function handleSearch() {
-        const val = document.getElementById('search-input').value.toLowerCase();
-        const res = db.filter(u => u.instagram.toLowerCase().includes(val));
-        renderResults(res);
+        const query = document.getElementById('search-input').value.toLowerCase();
+        const filtered = database.filter(u => u.instagram.toLowerCase().includes(query));
+        renderResults(filtered);
     }
 
-    function openDetail(img, prompt, url) {
+    function openDetail(img, prompt, insta) {
         const modal = document.getElementById('detail-modal');
         const content = document.getElementById('modal-content');
         content.innerHTML = `
-            <img src="${img}" style="width:100%; border-radius:2rem; margin-bottom:1.5rem; border:1px solid var(--glass-border);">
-            <a href="${url}" target="_blank" class="btn explore-btn" style="width:100%; color:#ff4d4d; border-color:#ff4d4d; margin-bottom:1.5rem; justify-content:center;">
-               ▶ WATCH INSTAGRAM EXAMPLE VIDEO
+            <img src="${img}" class="modal-image">
+            <a href="${insta}" target="_blank" class="btn explore-btn" style="width:100%; margin-bottom:1rem; color:#ff4d4d; border-color:#ff4d4d;">
+               ▶ Watch Instagram Video (Example)
             </a>
-            <div class="glass" style="padding:2rem;">
-                <p style="color:var(--text-muted); margin-bottom:2rem;">${prompt}</p>
-                <button class="btn search-btn" style="width:100%; justify-content:center;" onclick="copyText(\`${prompt}\`)">COPY THIS PROMPT</button>
+            <div class="glass" style="padding:1.5rem;">
+                <p style="margin-bottom:1rem; color: var(--text-muted); font-size:0.9rem;">${prompt}</p>
+                <button class="btn search-btn" style="width:100%" onclick="copyText(\`${prompt}\`)">Copy This Prompt</button>
             </div>
         `;
         modal.style.display = 'block';
@@ -225,21 +243,20 @@
         document.body.style.overflow = 'auto';
     }
 
-    function showPage(pageId) {
-        document.querySelectorAll('.legal-view').forEach(v => v.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-        window.scrollTo(0,0);
-    }
-
-    function copyText(txt) {
-        navigator.clipboard.writeText(txt);
+    function copyText(text) {
+        navigator.clipboard.writeText(text);
         const toast = document.getElementById('toast');
         toast.style.display = 'block';
         setTimeout(() => toast.style.display = 'none', 2000);
     }
 
+    function showPage(pageId) {
+        document.querySelectorAll('.legal-content').forEach(v => v.classList.remove('active-view'));
+        document.getElementById(pageId).classList.add('active-view');
+        window.scrollTo(0,0);
+    }
+
     window.onload = init;
 </script>
-
 </body>
 </html>
