@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Prompt Hub - Premium</title>
     
-    <script type='text/javascript' src='https://pl25750104.effectivegatecpm.com/c6/e7/7f/c6e77f5c1efceb275ad6696551624641.js'></script>
+    <script type='text/javascript' src='//pl25750104.effectivegatecpm.com/c6/e7/7f/c6e77f5c1efceb275ad6696551624641.js'></script>
 
     <style>
         :root {
@@ -17,8 +17,8 @@
             --text-muted: #94a3b8;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text-main); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.5; }
 
         /* Navigation */
         nav {
@@ -27,72 +27,91 @@
             position: sticky; top: 0; z-index: 1000;
         }
         .logo { font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
-        /* INSTAGRAM LOGO (From Screenshot 1000061591) */
-        .logo img { width: 32px; height: 32px; filter: invert(1); }
+        /* 2. INSTAGRAM LOGO (From Screenshot) */
+        .logo img { width: 32px; height: 32px; border-radius: 50%; }
 
         .container { max-width: 1000px; margin: 0 auto; padding: 15px; }
 
-        header { text-align: center; padding: 1.5rem 0; }
-        h1 { font-size: 2rem; margin-bottom: 1.5rem; color: #a5b4fc; }
+        header { text-align: center; padding: 2rem 0; }
+        h1 { font-size: 2.2rem; margin-bottom: 1.5rem; color: #a5b4fc; font-weight: 700; }
 
-        .search-container { display: flex; gap: 8px; margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto; }
+        /* Search Box */
+        .search-container { display: flex; gap: 8px; margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto; }
         input[type="text"] { 
-            flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #334155; 
-            background: #1e293b; color: white; outline: none; 
+            flex: 1; padding: 14px; border-radius: 10px; border: 1px solid #334155; 
+            background: #1e293b; color: white; outline: none; font-size: 1rem;
         }
-        .search-btn { background: var(--secondary); color: white; border: none; padding: 0 20px; border-radius: 10px; cursor: pointer; }
+        .search-btn { background: var(--secondary); color: white; border: none; padding: 0 20px; border-radius: 10px; cursor: pointer; font-weight: 600; }
 
-        /* DIRECT LINK BUTTON (Screenshot 1000061354) */
+        /* Trending Button (3. DIRECT LINK From Screenshot) */
         .trending-link {
-            background:#ef4444; color:white; padding:10px 20px; 
+            background:#ef4444; color:white; padding:12px 20px; 
             border-radius:8px; text-decoration:none; font-weight:bold; 
-            font-size:0.8rem; display: inline-block; margin-bottom: 20px;
+            font-size:0.85rem; display: inline-block; margin-bottom: 20px;
+            transition: 0.3s ease;
         }
+        .trending-link:hover { background: #dc2626; transform: translateY(-2px); }
 
-        /* GRID LAYOUT (2 Columns) */
+        /* --- GRID LAYOUT (2 Columns) --- */
         #results-area {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 15px;
+            margin-top: 20px;
         }
 
         .prompt-card { 
-            background: var(--card-bg); border-radius: 12px; overflow: hidden; 
+            background: var(--card-bg); border-radius: 15px; overflow: hidden; 
             display: flex; flex-direction: column; border: 1px solid #334155;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .image-box { position: relative; width: 100%; aspect-ratio: 1/1; }
         .image-box img { width: 100%; height: 100%; object-fit: cover; }
 
         .video-label { 
-            position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.7); 
-            color: #ff4d4d; border: 1px solid #ff4d4d; padding: 2px 6px; 
-            border-radius: 4px; font-size: 9px; font-weight: bold; 
+            position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); 
+            color: #ff4d4d; border: 1px solid #ff4d4d; padding: 2px 8px; 
+            border-radius: 5px; font-size: 10px; font-weight: bold; 
         }
 
-        .content-box { padding: 10px; }
-        .prompt-title { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .content-box { padding: 12px; }
+        .prompt-title { 
+            font-size: 0.9rem; color: var(--text-muted); 
+            margin-bottom: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
 
-        .btn-group { display: flex; gap: 5px; }
+        /* Card Buttons */
+        .btn-group { display: flex; gap: 8px; }
         .btn-card { 
-            flex: 1; padding: 8px 2px; border-radius: 6px; border: none; 
-            font-size: 0.7rem; font-weight: bold; cursor: pointer; text-align: center;
-            text-decoration: none; color: white;
+            flex: 1; padding: 10px 5px; border-radius: 8px; border: none; 
+            font-size: 0.75rem; font-weight: 700; cursor: pointer; text-align: center;
+            text-decoration: none; color: white; transition: 0.2s;
         }
         .copy-btn { background: #334155; }
         .watch-btn { background: var(--secondary); }
+        .btn-card:active { transform: scale(0.95); }
 
-        /* AD CONTAINER (Har 4 cards ke baad) */
-        .ad-slot { 
+        /* 4. NATIVE AD SLOT STYLING */
+        .ad-container { 
             grid-column: span 2; 
-            margin: 10px 0; 
-            min-height: 200px; 
-            background: rgba(255,255,255,0.02);
-            display: flex; justify-content: center; align-items: center;
+            margin: 15px 0; 
+            padding: 10px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            min-height: 100px;
         }
 
         #toast { 
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
-            background: #10b981; color: white; padding: 10px 20px; 
-            border-radius: 50px; display: none; z-index: 2000;
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
+            background: #10b981; color: white; padding: 12px 25px; 
+            border-radius: 50px; display: none; z-index: 2000; font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .container { padding: 10px; }
+            #results-area { gap: 10px; }
         }
     </style>
 </head>
@@ -118,7 +137,8 @@
         </a>
     </header>
 
-    <div id="results-area"></div>
+    <div id="results-area">
+        </div>
 </div>
 
 <div id="toast">Copied to Clipboard!</div>
@@ -129,26 +149,25 @@
     async function init() {
         try {
             const res = await fetch('./database.json');
-            db = await res.json();
+            if(res.ok) {
+                db = await res.json();
+            } else {
+                // Fallback sample data if file not found
+                db = [{ "instagram": "https://instagram.com/", "data": [{ "image": "https://via.placeholder.com/500", "prompt": "Sample AI Prompt..." }] }];
+            }
             renderData(db);
-        } catch (e) {
-            console.log("Database load fail, using sample data.");
-            // Sample data for testing
-            db = [{"instagram": "https://instagram.com", "data": Array(12).fill({"image": "https://via.placeholder.com/400", "prompt": "Sample prompt text here..."})}];
-            renderData(db);
-        }
+        } catch (e) { console.error("Error loading database"); }
     }
 
     function renderData(list) {
         const area = document.getElementById('results-area');
         area.innerHTML = '';
-        let totalCards = 0;
+        
+        let cardCounter = 0;
 
         list.forEach((user) => {
             user.data.forEach(item => {
-                totalCards++;
-                
-                // 1. Create Card
+                // 1. Render Prompt Card
                 const card = document.createElement('div');
                 card.className = 'prompt-card';
                 card.innerHTML = `
@@ -165,27 +184,34 @@
                     </div>
                 `;
                 area.appendChild(card);
+                cardCounter++;
 
-                // 2. Logic: Har 4 cards ke baad Native Ad (Screenshot 1000061592 ID use kiya)
-                if (totalCards % 4 === 0) {
-                    const adSlot = document.createElement('div');
-                    adSlot.className = 'ad-slot';
+                // 2. LOGIC: NATIVE AD AFTER EVERY 4 CARDS (From Screenshot Code)
+                if (cardCounter % 4 === 0) {
+                    const adDiv = document.createElement('div');
+                    adDiv.className = 'ad-container';
                     
-                    // Native Ad unique implementation
+                    // Native Banner Script from 1000061352.jpg
                     const script = document.createElement('script');
                     script.async = true;
-                    script.dataset.cfasync = "false";
+                    script.setAttribute('data-cfasync', 'false');
                     script.src = "//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js";
                     
                     const container = document.createElement('div');
-                    container.id = `container-15b9c32f55639f994ab49336ecb3dd5c`;
+                    container.id = "container-15b9c32f55639f994ab49336ecb3dd5c";
                     
-                    adSlot.appendChild(script);
-                    adSlot.appendChild(container);
-                    area.appendChild(adSlot);
+                    adDiv.appendChild(script);
+                    adDiv.appendChild(container);
+                    area.appendChild(adDiv);
                 }
             });
         });
+    }
+
+    function handleSearch() {
+        const val = document.getElementById('search-input').value.toLowerCase();
+        const filtered = db.filter(u => u.instagram.toLowerCase().includes(val));
+        renderData(filtered);
     }
 
     function copyText(txt) {
@@ -193,12 +219,6 @@
         const t = document.getElementById('toast');
         t.style.display = 'block';
         setTimeout(() => t.style.display = 'none', 2000);
-    }
-
-    function handleSearch() {
-        const val = document.getElementById('search-input').value.toLowerCase();
-        const filtered = db.filter(u => u.instagram.toLowerCase().includes(val));
-        renderData(filtered);
     }
 
     window.onload = init;
