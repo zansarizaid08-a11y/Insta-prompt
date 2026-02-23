@@ -20,18 +20,20 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background-color: var(--bg-dark); color: var(--text-main); }
 
+        /* Navigation */
         nav {
             display: flex; justify-content: space-between; align-items: center;
             padding: 1rem 5%; background: #0f172a; border-bottom: 1px solid #334155;
             position: sticky; top: 0; z-index: 1000;
         }
         .logo { font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
-        .logo img { width: 32px; height: 32px; border-radius: 50%; }
+        /* INSTAGRAM LOGO (From Screenshot 1000061591) */
+        .logo img { width: 32px; height: 32px; filter: invert(1); }
 
         .container { max-width: 1000px; margin: 0 auto; padding: 15px; }
 
         header { text-align: center; padding: 1.5rem 0; }
-        h1 { font-size: 2rem; margin-bottom: 1rem; color: #a5b4fc; }
+        h1 { font-size: 2rem; margin-bottom: 1.5rem; color: #a5b4fc; }
 
         .search-container { display: flex; gap: 8px; margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto; }
         input[type="text"] { 
@@ -40,12 +42,14 @@
         }
         .search-btn { background: var(--secondary); color: white; border: none; padding: 0 20px; border-radius: 10px; cursor: pointer; }
 
+        /* DIRECT LINK BUTTON (Screenshot 1000061354) */
         .trending-link {
             background:#ef4444; color:white; padding:10px 20px; 
             border-radius:8px; text-decoration:none; font-weight:bold; 
             font-size:0.8rem; display: inline-block; margin-bottom: 20px;
         }
 
+        /* GRID LAYOUT (2 Columns) */
         #results-area {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
         }
@@ -65,7 +69,7 @@
         }
 
         .content-box { padding: 10px; }
-        .prompt-title { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
+        .prompt-title { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         .btn-group { display: flex; gap: 5px; }
         .btn-card { 
@@ -76,15 +80,13 @@
         .copy-btn { background: #334155; }
         .watch-btn { background: var(--secondary); }
 
-        /* AD SLOT STYLE */
-        .ad-container { 
+        /* AD CONTAINER (Har 4 cards ke baad) */
+        .ad-slot { 
             grid-column: span 2; 
-            margin: 15px 0; 
+            margin: 10px 0; 
+            min-height: 200px; 
             background: rgba(255,255,255,0.02);
-            border-radius: 10px;
-            padding: 5px;
-            text-align: center;
-            min-height: 150px;
+            display: flex; justify-content: center; align-items: center;
         }
 
         #toast { 
@@ -100,7 +102,7 @@
     <div class="logo">
         <img src="https://i.ibb.co/m5pXz1D/instagram-logo.png" alt="Logo"> AI PROMPT HUB
     </div>
-    <div style="font-size: 1.5rem;">&#9776;</div>
+    <div style="font-size: 1.5rem; cursor: pointer;">&#9776;</div>
 </nav>
 
 <div class="container">
@@ -129,18 +131,24 @@
             const res = await fetch('./database.json');
             db = await res.json();
             renderData(db);
-        } catch (e) { console.log("Database file load nahi hui."); }
+        } catch (e) {
+            console.log("Database load fail, using sample data.");
+            // Sample data for testing
+            db = [{"instagram": "https://instagram.com", "data": Array(12).fill({"image": "https://via.placeholder.com/400", "prompt": "Sample prompt text here..."})}];
+            renderData(db);
+        }
     }
 
     function renderData(list) {
         const area = document.getElementById('results-area');
         area.innerHTML = '';
-        
-        let cardCount = 0;
+        let totalCards = 0;
 
         list.forEach((user) => {
             user.data.forEach(item => {
-                // Render Prompt Card
+                totalCards++;
+                
+                // 1. Create Card
                 const card = document.createElement('div');
                 card.className = 'prompt-card';
                 card.innerHTML = `
@@ -157,38 +165,27 @@
                     </div>
                 `;
                 area.appendChild(card);
-                cardCount++;
 
-                // HAR 4 CARDS KE BAAD NATIVE AD SHOW KARNE KA LOGIC
-                if (cardCount % 4 === 0) {
+                // 2. Logic: Har 4 cards ke baad Native Ad (Screenshot 1000061592 ID use kiya)
+                if (totalCards % 4 === 0) {
                     const adSlot = document.createElement('div');
-                    adSlot.className = 'ad-container';
+                    adSlot.className = 'ad-slot';
                     
-                    // Naya unique ID create karna zaroori hai har ad unit ke liye
-                    const adId = 'container-15b9c32f55639f994ab49336ecb3dd5c-' + cardCount;
-                    adSlot.innerHTML = `<div id="${adId}"></div>`;
+                    // Native Ad unique implementation
+                    const script = document.createElement('script');
+                    script.async = true;
+                    script.dataset.cfasync = "false";
+                    script.src = "//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js";
+                    
+                    const container = document.createElement('div');
+                    container.id = `container-15b9c32f55639f994ab49336ecb3dd5c`;
+                    
+                    adSlot.appendChild(script);
+                    adSlot.appendChild(container);
                     area.appendChild(adSlot);
-
-                    // Ad script ko programmatically load karna taaki har baar trigger ho
-                    try {
-                        const script = document.createElement('script');
-                        script.async = true;
-                        script.dataset.cfasync = "false";
-                        script.src = "https://pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js";
-                        
-                        // invoke.js file ko append karne se pehle global variable ko handle karna padta hai
-                        // Adsterra native ads usually DOM load ke baad script execute karte hain
-                        adSlot.appendChild(script);
-                    } catch (err) { console.error("Ad failed to load"); }
                 }
             });
         });
-    }
-
-    function handleSearch() {
-        const val = document.getElementById('search-input').value.toLowerCase();
-        const filtered = db.filter(u => u.instagram.toLowerCase().includes(val));
-        renderData(filtered);
     }
 
     function copyText(txt) {
@@ -196,6 +193,12 @@
         const t = document.getElementById('toast');
         t.style.display = 'block';
         setTimeout(() => t.style.display = 'none', 2000);
+    }
+
+    function handleSearch() {
+        const val = document.getElementById('search-input').value.toLowerCase();
+        const filtered = db.filter(u => u.instagram.toLowerCase().includes(val));
+        renderData(filtered);
     }
 
     window.onload = init;
