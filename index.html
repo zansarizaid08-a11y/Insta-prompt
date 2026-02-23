@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Prompt Hub - Premium</title>
     
+    <script type='text/javascript' src='//pl25750104.effectivegatecpm.com/c6/e7/7f/c6e77f5c1efceb275ad6696551624641.js'></script>
+
     <style>
         :root {
             --primary: #4f46e5;
@@ -24,8 +26,9 @@
             padding: 1rem; background: #0f172a; border-bottom: 1px solid #334155;
             position: sticky; top: 0; z-index: 1000;
         }
-        .logo { font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; }
-        .logo img { width: 30px; height: 30px; border-radius: 50%; }
+        .logo { font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        /* Instagram Logo Styling */
+        .logo img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
 
         .container { max-width: 1000px; margin: 0 auto; padding: 15px; }
 
@@ -40,12 +43,17 @@
         }
         .search-btn { background: var(--secondary); color: white; border: none; padding: 0 15px; border-radius: 8px; cursor: pointer; }
 
-        /* --- GRID LAYOUT (2 Columns for Mobile & Desktop) --- */
+        /* Trending Button (Direct Link) */
+        .trending-link {
+            background:#ef4444; color:white; padding:12px 25px; 
+            border-radius:8px; text-decoration:none; font-weight:bold; 
+            font-size:0.9rem; display: inline-block; transition: 0.3s;
+        }
+        .trending-link:hover { background: #dc2626; transform: scale(1.05); }
+
+        /* Grid Layout */
         #results-area {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Hamesha 2 column dikhega */
-            gap: 12px;
-            margin-top: 20px;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px;
         }
 
         .prompt-card { 
@@ -68,17 +76,19 @@
             margin-bottom: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
 
-        /* --- BUTTONS --- */
-        .btn-group { display: flex; gap: 5px; flex-wrap: wrap; }
+        /* Buttons */
+        .btn-group { display: flex; gap: 5px; }
         .btn-card { 
             flex: 1; padding: 8px 5px; border-radius: 6px; border: none; 
             font-size: 0.75rem; font-weight: 600; cursor: pointer; text-align: center;
-            text-decoration: none; display: inline-block;
+            text-decoration: none; color: white;
         }
-        .copy-btn { background: #334155; color: white; }
-        .watch-btn { background: var(--secondary); color: white; }
+        .copy-btn { background: #334155; }
+        .watch-btn { background: var(--secondary); }
 
-        /* Toast Notification */
+        /* Ad Container Styling */
+        .ad-slot { grid-column: span 2; margin: 15px 0; text-align: center; }
+
         #toast { 
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
             background: #10b981; color: white; padding: 10px 20px; 
@@ -87,7 +97,7 @@
 
         @media (max-width: 480px) {
             h1 { font-size: 1.5rem; }
-            .btn-card { font-size: 0.7rem; padding: 6px 2px; }
+            .btn-card { font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -95,9 +105,9 @@
 
 <nav>
     <div class="logo">
-        <img src="https://via.placeholder.com/50" alt="Logo"> AI PROMPT HUB
+        <img src="https://i.ibb.co/m5pXz1D/instagram-logo.png" alt="Logo"> AI PROMPT HUB
     </div>
-    <div style="font-size: 1.5rem;">&#9776;</div>
+    <div style="font-size: 1.5rem; cursor: pointer;">&#9776;</div>
 </nav>
 
 <div class="container">
@@ -108,7 +118,7 @@
             <button class="search-btn" onclick="handleSearch()">Search</button>
         </div>
         
-        <a href="#" style="background:#ef4444; color:white; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:bold; font-size:0.9rem;">
+        <a href="https://www.effectivegatecpm.com/z5q9i3x45w?key=06adf9977ec69fdce5fef572556a5d88" target="_blank" class="trending-link">
             🔥 TRENDING AI TOOLS (2026)
         </a>
     </header>
@@ -120,19 +130,12 @@
 <div id="toast">Copied to Clipboard!</div>
 
 <script>
-    // Sample Data (Yeh aapki database.json se aayega)
     let db = [
         {
             "instagram": "https://instagram.com/reel/sample1",
             "data": [
-                {
-                    "image": "https://via.placeholder.com/400x500",
-                    "prompt": "Create a 3D illustration of a young couple sitting on a wooden log with heart bokeh background..."
-                },
-                {
-                    "image": "https://via.placeholder.com/400x500",
-                    "prompt": "Cyberpunk style portrait of a girl with neon lights..."
-                }
+                { "image": "https://via.placeholder.com/400x500", "prompt": "3D Cute Couple sitting on a moon..." },
+                { "image": "https://via.placeholder.com/400x500", "prompt": "Cyberpunk city with neon lights..." }
             ]
         }
     ];
@@ -141,16 +144,18 @@
         try {
             const res = await fetch('./database.json');
             if(res.ok) db = await res.json();
-        } catch (e) { console.log("Using local sample data"); }
+        } catch (e) { console.log("DB error, using sample data"); }
         renderData(db);
     }
 
     function renderData(list) {
         const area = document.getElementById('results-area');
         area.innerHTML = '';
+        let cardCount = 0;
         
         list.forEach((user) => {
             user.data.forEach(item => {
+                cardCount++;
                 const card = document.createElement('div');
                 card.className = 'prompt-card';
                 card.innerHTML = `
@@ -167,6 +172,17 @@
                     </div>
                 `;
                 area.appendChild(card);
+
+                // NATIVE BANNER AD AFTER EVERY 4 CARDS
+                if(cardCount % 4 === 0) {
+                    const adDiv = document.createElement('div');
+                    adDiv.className = 'ad-slot';
+                    adDiv.innerHTML = `
+                        <script async="async" data-cfasync="false" src="//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js"><\/script>
+                        <div id="container-15b9c32f55639f994ab49336ecb3dd5c"></div>
+                    `;
+                    area.appendChild(adDiv);
+                }
             });
         });
     }
