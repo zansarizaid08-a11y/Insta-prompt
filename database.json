@@ -254,5 +254,23 @@
         "prompt": "Create an image of a selfie, without any clear subject or composition-just a random blueish snapshot taken unintentionally. The image should have slight motion blur and consistent lighting from streetlights. Both characters are together in the selfie and the image size ratio is 4:5 and does not change the facial features"
       }
     ]
+  },
+  {
+    "category": "Other",
+    "instagram": "https://www.instagram.com/p/DUSgLdnjJML/?igsh=cHYwcTd0Y3UzMGt1",
+    "data": [
+      {
+        "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgnxn6y7YkZpFk2isYz9Jcuml-QIkjC9MNYKJPKoMuh66qFHNjT9mDoFG6LNZUKhhiq24F4gkTFmrIYovR3xguvKvDnees_zCpTWIAbQXOA7KkrFr_BZhxycSXSLaqzvwFnXbVhxj2nMRdkm_Firvh1uzau_eAU3L5IdwmmfW54TKZ4ALjTJqZH2J6koZQ/s1440/1000061895.webp",
+        "prompt": "A peaceful realistic cinematic 3d scene of young man resting and head leaning with tree while sitting against the thick trunk of a large tree. A large medieval greatsword leans against the tree beside the character. he is wearing a same dress as given all exact same remain, The foreground is filled with lush green grass and vibrant colorful wildflowers in red, purple, and yellow. Several butterflies flutter in the air. In the background, a picturesque landscape features rolling green hills, a medieval village with red-roofed houses, and a stone castle perched on a distant mountain. The sky is blue with soft, fluffy clouds and warm golden hour lighting, creating a dreamy and idyllic atmosphere. Highly detailed, digital art style. \"Engine 5 Render 32k resolution, in the aspect ratio 3.4"
+      },
+      {
+        "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg7yJikhB2DLYl6aSe0Rs5DIy30AQ2SA8w5yWhAi7b2BIhEef2ENP-lAvorUB2-e_8JUALUH2mKrSv4CH2dCCW4HFRDHPvWJQ2k9DdbmUWMmT0LIg7fjpqPCkkSQPeKDsZvX596ngh6RCM_D7Rl6IFFRU3tk9lzYc5tWIcaCFXKUa1AfephVUQGVvUPv5c/s1440/1000061899.webp",
+        "prompt": "Create a cinematic editorial portrait of a young woman sitting on a simple chair in vast, wind-swept green grass fields. Tall grass moves like ocean waves, partially obscuring him. He wears a same dress as given exactly use from reference image holding a single white rose. head tiited down, calm melancholic mood.\n\nVertical 3.4, telephoto look, shallow depth, film grain, atmospheric, poetic, no text, award-winning imagery."
+      },
+      {
+        "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjppcb-utQA8t2LZYW9dKXOYbfC2_fnHUhGCOLqZpBaGu0iKEY19RvtWpwfUEO9x4dRC81bKDGV_JD1YY8Xol8a9SLqA1LwVqtjgsAasajiec3usN-nbO_V_LF-WvrBUSrJ6Y2rWO-RVOeI0y4vGiqrK2aU2yINmCu3FVXLOwcf6RN_utSEpHZA1pVs3g8/s1440/1000061903.webp",
+        "prompt": "Create a cinematic editorial portrait of a young man sitting on a simple chair in vast, wind-swept green grass fields. Tall grass moves like ocean waves, partially obscuring him. He wears a same dress as given exactly use from reference image holding a single white rose. head tiited down, calm melancholic mood.\n\nVertical 3.4, telephoto look, shallow depth, film grain, atmospheric, poetic, no text, award-winning imagery."
+      }
+    ]
   }
 ]
