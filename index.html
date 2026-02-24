@@ -63,6 +63,7 @@
             font-size:0.8rem; display: inline-block; margin-bottom: 10px;
         }
 
+        /* RESULTS AREA - Grid Layout */
         #results-area {
             display: grid; grid-template-columns: repeat(2, 1fr); 
             gap: 15px; margin-top: 10px;
@@ -92,16 +93,15 @@
         .copy-btn { background: #334155; }
         .watch-btn { background: var(--secondary); }
 
-        /* AD CONTAINER STYLES */
-        .ad-banner-wrapper {
-            grid-column: span 2;
-            width: 100%;
+        /* BANNER AD STYLING - Ye grid mein poori width lega */
+        .ad-row {
+            grid-column: span 2; 
             display: flex;
             justify-content: center;
-            margin: 15px 0;
-            background: rgba(0,0,0,0.2);
             padding: 10px 0;
-            border-radius: 10px;
+            margin: 10px 0;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
         }
 
         #toast { 
@@ -141,14 +141,10 @@
         </a>
     </header>
 
-    <div id="container-15b9c32f55639f994ab49336ecb3dd5c" style="margin-bottom: 20px;"></div>
-
     <div id="results-area"></div>
 </div>
 
 <div id="toast">Copied to Clipboard!</div>
-
-<script async="async" data-cfasync="false" src="//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js"></script>
 
 <script>
     let db = [];
@@ -184,10 +180,11 @@
     function renderData(list) {
         const area = document.getElementById('results-area');
         area.innerHTML = '';
-        let cardCounter = 0;
+        let cardCount = 0;
 
         list.forEach((user) => {
             user.data.forEach(item => {
+                // Card create karna
                 const card = document.createElement('div');
                 card.className = 'prompt-card';
                 card.innerHTML = `
@@ -204,23 +201,18 @@
                     </div>
                 `;
                 area.appendChild(card);
-                cardCounter++;
+                
+                cardCount++;
 
-                // --- Banner Ad Logic: After every 4 cards ---
-                if (cardCounter % 4 === 0) {
-                    const adWrapper = document.createElement('div');
-                    adWrapper.className = 'ad-banner-wrapper';
+                // Logic: Har 4 cards ke baad Banner Ad dikhana
+                if (cardCount % 4 === 0) {
+                    const adContainer = document.createElement('div');
+                    adContainer.className = 'ad-row';
                     
-                    // Generating a unique ID for each ad instance
-                    const adId = 'ad-' + Math.random().toString(36).substr(2, 9);
-                    adWrapper.id = adId;
-
-                    area.appendChild(adWrapper);
-
-                    // Adsterra Banner Script Injection
-                    const scriptConfig = document.createElement('script');
-                    scriptConfig.type = 'text/javascript';
-                    scriptConfig.text = `
+                    // Adsterra Banner Script
+                    const s1 = document.createElement('script');
+                    s1.type = 'text/javascript';
+                    s1.text = `
                         atOptions = {
                             'key' : '72fde79d9999b5b65dfcc0cc7fcf949f',
                             'format' : 'iframe',
@@ -229,12 +221,13 @@
                             'params' : {}
                         };
                     `;
-                    const scriptInvoke = document.createElement('script');
-                    scriptInvoke.type = 'text/javascript';
-                    scriptInvoke.src = '//www.highperformanceformat.com/72fde79d9999b5b65dfcc0cc7fcf949f/invoke.js';
+                    const s2 = document.createElement('script');
+                    s2.type = 'text/javascript';
+                    s2.src = '//www.highperformanceformat.com/72fde79d9999b5b65dfcc0cc7fcf949f/invoke.js';
                     
-                    adWrapper.appendChild(scriptConfig);
-                    adWrapper.appendChild(scriptInvoke);
+                    adContainer.appendChild(s1);
+                    adContainer.appendChild(s2);
+                    area.appendChild(adContainer);
                 }
             });
         });
