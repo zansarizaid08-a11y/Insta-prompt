@@ -28,7 +28,6 @@
         .logo { font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
         .logo img { width: 32px; height: 32px; border-radius: 50%; }
 
-        /* --- NEW: CATEGORY SCROLL BAR --- */
         .category-wrapper {
             position: sticky; top: 65px; z-index: 999;
             background: #0f172a; padding: 12px 0;
@@ -93,10 +92,11 @@
         .copy-btn { background: #334155; }
         .watch-btn { background: var(--secondary); }
 
+        /* AD STYLING */
         .ad-container { 
-            grid-column: span 2; margin: 15px 0; padding: 5px;
-            background: rgba(255,255,255,0.02); border-radius: 12px;
-            min-height: 150px; text-align: center;
+            grid-column: span 2; margin: 15px 0; padding: 10px;
+            background: #1e293b; border: 1px dashed #334155; border-radius: 12px;
+            min-height: 100px; display: flex; justify-content: center; align-items: center;
         }
 
         #toast { 
@@ -127,7 +127,7 @@
     <header>
         <h1>Discover Premium Prompts</h1>
         <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search prompts or paste link...">
+            <input type="text" id="search-input" placeholder="Search prompts...">
             <button class="search-btn" onclick="handleSearch()">Search</button>
         </div>
         <a href="https://www.effectivegatecpm.com/z5q9i3x45w?key=06adf9977ec69fdce5fef572556a5d88" target="_blank" class="trending-link">
@@ -146,20 +146,15 @@
     async function init() {
         try {
             const res = await fetch('./database.json');
-            if(res.ok) {
-                db = await res.json();
-            }
+            if(res.ok) { db = await res.json(); }
             createCategoryButtons();
             renderData(db);
         } catch (e) { console.error("Error loading database"); }
     }
 
-    // Har data item se unique categories dhoondh kar buttons banana
     function createCategoryButtons() {
         const catList = document.getElementById('cat-list');
-        // Saari unique categories nikaali ja rahi hain
         const categories = [...new Set(db.map(item => item.category).filter(c => c))];
-        
         categories.forEach(cat => {
             const btn = document.createElement('button');
             btn.className = 'cat-btn';
@@ -170,16 +165,10 @@
     }
 
     function filterData(category, btn) {
-        // Active class update
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-
-        if(category === 'All') {
-            renderData(db);
-        } else {
-            const filtered = db.filter(item => item.category === category);
-            renderData(filtered);
-        }
+        const filtered = (category === 'All') ? db : db.filter(item => item.category === category);
+        renderData(filtered);
     }
 
     function renderData(list) {
@@ -199,29 +188,46 @@
                     <div class="content-box">
                         <div class="prompt-title">/ prompt-text</div>
                         <div class="btn-group">
-                            <button class="btn-card copy-btn" onclick="copyText(\`${item.prompt}\`)">Copy Prompt</button>
-                            <a href="${user.instagram}" target="_blank" class="btn-card watch-btn">Watch Video</a>
+                            <button class="btn-card copy-btn" onclick="copyText(\`${item.prompt}\`)">Copy</button>
+                            <a href="${user.instagram}" target="_blank" class="btn-card watch-btn">Watch</a>
                         </div>
                     </div>
                 `;
                 area.appendChild(card);
                 cardCounter++;
 
-                // HAR 4 CARDS KE BAAD NATIVE AD LOGIC FIX
+                // --- ADSTERRA NATIVE AD FIX ---
                 if (cardCounter % 4 === 0) {
                     const adDiv = document.createElement('div');
                     adDiv.className = 'ad-container';
+                    const adId = "15b9c32f55639f994ab49336ecb3dd5c"; // Aapki Original ID
+                    const containerId = `atContainer_${cardCounter}`;
                     
-                    // Unique ID har ad slot ke liye taaki repeat ho sake
-                    const uniqueId = `container-15b9c32f55639f994ab49336ecb3dd5c-${cardCounter}`;
-                    adDiv.innerHTML = `<div id="${uniqueId}"></div>`;
-                    
-                    const script = document.createElement('script');
-                    script.async = true;
-                    script.dataset.cfasync = "false";
-                    script.src = "//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js";
-                    
+                    adDiv.innerHTML = `<div id="${containerId}"></div>`;
                     area.appendChild(adDiv);
+
+                    // Logic to load Adsterra Script
+                    const script = document.createElement('script');
+                    script.type = 'text/javascript';
+                    script.innerHTML = `
+                        (function() {
+                            var conf = {
+                                "id": "${adId}",
+                                "container": "${containerId}",
+                                "format": "native",
+                                "is_SRA": "f"
+                            };
+                            if (window._at) {
+                                window._at.push(conf);
+                            } else {
+                                window._at = [conf];
+                                var s = document.createElement('script');
+                                s.src = '//pl28750234.effectivegatecpm.com/${adId}/invoke.js';
+                                s.async = true;
+                                document.head.appendChild(s);
+                            }
+                        })();
+                    `;
                     adDiv.appendChild(script);
                 }
             });
