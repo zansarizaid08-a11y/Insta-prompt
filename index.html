@@ -92,12 +92,11 @@
         .copy-btn { background: #334155; }
         .watch-btn { background: var(--secondary); }
 
-        /* NATIVE AD ROW */
         .native-ad-container {
             grid-column: span 2;
             width: 100%;
-            margin: 10px 0;
-            min-height: 50px;
+            margin: 15px 0;
+            text-align: center;
         }
 
         #toast { 
@@ -131,7 +130,6 @@
             <input type="text" id="search-input" placeholder="Search prompts...">
             <button class="search-btn" onclick="handleSearch()">Search</button>
         </div>
-        
         <a href="https://www.effectivegatecpm.com/z5q9i3x45w?key=06adf9977ec69fdce5fef572556a5d88" target="_blank" class="trending-link">
             🔥 TRENDING AI TOOLS (2026)
         </a>
@@ -173,34 +171,39 @@
         renderData(filtered);
     }
 
+    // Function to Force Load Native Ad
+    function insertNativeAd(targetArea) {
+        const adDiv = document.createElement('div');
+        adDiv.className = 'native-ad-container';
+        
+        // Har baar naya container ID taaki script refresh ho sake
+        const containerId = 'container-15b9c32f55639f994ab49336ecb3dd5c';
+        adDiv.id = containerId;
+        
+        targetArea.appendChild(adDiv);
+
+        // Ad script ko dynamic inject karna
+        const script = document.createElement('script');
+        script.async = true;
+        script.setAttribute('data-cfasync', 'false');
+        script.src = `//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js`;
+        
+        adDiv.appendChild(script);
+    }
+
     function renderData(list) {
         const area = document.getElementById('results-area');
         area.innerHTML = '';
         
         let cardCount = 0;
-        let hasNativeAdShown = false;
-
-        // Native Ad insertion function
-        const insertNativeAd = () => {
-            if (!hasNativeAdShown) {
-                const adDiv = document.createElement('div');
-                adDiv.className = 'native-ad-container';
-                adDiv.id = 'container-15b9c32f55639f994ab49336ecb3dd5c';
-                
-                const script = document.createElement('script');
-                script.async = true;
-                script.setAttribute('data-cfasync', 'false');
-                script.src = '//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js';
-                
-                adDiv.appendChild(script);
-                area.appendChild(adDiv);
-                hasNativeAdShown = true;
-            }
-        };
-
-        // Total items count check
+        let adInserted = false;
         const allItems = [];
-        list.forEach(user => user.data.forEach(item => allItems.push({user, item})));
+
+        list.forEach(user => {
+            user.data.forEach(item => {
+                allItems.push({user, item});
+            });
+        });
 
         if (allItems.length === 0) return;
 
@@ -224,15 +227,17 @@
             area.appendChild(card);
             cardCount++;
 
-            // Logic: Pehle 2 cards ke baad ad dikhao
-            if (cardCount === 2) {
-                insertNativeAd();
+            // Pehle 2 cards ke baad ad
+            if (cardCount === 2 && !adInserted) {
+                insertNativeAd(area);
+                adInserted = true;
             }
         });
 
-        // Agar list mein 2 se kam cards hain, toh loop ke baad ad dikhao
-        if (cardCount < 2 && !hasNativeAdShown) {
-            insertNativeAd();
+        // Agar sirf 1 card hai toh uske niche ad
+        if (cardCount < 2 && !adInserted) {
+            insertNativeAd(area);
+            adInserted = true;
         }
     }
 
