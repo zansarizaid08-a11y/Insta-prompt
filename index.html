@@ -17,7 +17,7 @@
             --text-muted: #94a3b8;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.5; }
 
         nav {
@@ -92,11 +92,12 @@
         .copy-btn { background: #334155; }
         .watch-btn { background: var(--secondary); }
 
-        /* AD STYLING */
+        /* BANNER AD CONTAINER */
         .ad-container { 
-            grid-column: span 2; margin: 15px 0; padding: 10px;
-            background: #1e293b; border: 1px dashed #334155; border-radius: 12px;
-            min-height: 100px; display: flex; justify-content: center; align-items: center;
+            grid-column: span 2; margin: 10px 0;
+            display: flex; justify-content: center; align-items: center;
+            background: rgba(255,255,255,0.02);
+            min-height: 95px; border-radius: 10px; overflow: hidden;
         }
 
         #toast { 
@@ -196,39 +197,31 @@
                 area.appendChild(card);
                 cardCounter++;
 
-                // --- ADSTERRA NATIVE AD FIX ---
+                // --- 728x90 BANNER AD LOGIC (Every 4 Cards) ---
                 if (cardCounter % 4 === 0) {
                     const adDiv = document.createElement('div');
                     adDiv.className = 'ad-container';
-                    const adId = "15b9c32f55639f994ab49336ecb3dd5c"; // Aapki Original ID
-                    const containerId = `atContainer_${cardCounter}`;
                     
-                    adDiv.innerHTML = `<div id="${containerId}"></div>`;
-                    area.appendChild(adDiv);
-
-                    // Logic to load Adsterra Script
-                    const script = document.createElement('script');
-                    script.type = 'text/javascript';
-                    script.innerHTML = `
-                        (function() {
-                            var conf = {
-                                "id": "${adId}",
-                                "container": "${containerId}",
-                                "format": "native",
-                                "is_SRA": "f"
-                            };
-                            if (window._at) {
-                                window._at.push(conf);
-                            } else {
-                                window._at = [conf];
-                                var s = document.createElement('script');
-                                s.src = '//pl28750234.effectivegatecpm.com/${adId}/invoke.js';
-                                s.async = true;
-                                document.head.appendChild(s);
-                            }
-                        })();
+                    // Ad Options as per your screenshot
+                    const adScript = document.createElement('script');
+                    adScript.type = 'text/javascript';
+                    adScript.innerHTML = `
+                        atOptions = {
+                            'key' : '72fde79d9999b5b65dfcc0cc7fcf949f',
+                            'format' : 'iframe',
+                            'height' : 90,
+                            'width' : 728,
+                            'params' : {}
+                        };
                     `;
-                    adDiv.appendChild(script);
+                    
+                    const adInvoke = document.createElement('script');
+                    adInvoke.type = 'text/javascript';
+                    adInvoke.src = "//www.highperformanceformat.com/72fde79d9999b5b65dfcc0cc7fcf949f/invoke.js";
+
+                    adDiv.appendChild(adScript);
+                    adDiv.appendChild(adInvoke);
+                    area.appendChild(adDiv);
                 }
             });
         });
