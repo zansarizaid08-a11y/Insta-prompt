@@ -63,7 +63,6 @@
             font-size:0.8rem; display: inline-block; margin-bottom: 10px;
         }
 
-        /* RESULTS AREA - Grid Layout */
         #results-area {
             display: grid; grid-template-columns: repeat(2, 1fr); 
             gap: 15px; margin-top: 10px;
@@ -93,15 +92,12 @@
         .copy-btn { background: #334155; }
         .watch-btn { background: var(--secondary); }
 
-        /* BANNER AD STYLING - Ye grid mein poori width lega */
-        .ad-row {
-            grid-column: span 2; 
-            display: flex;
-            justify-content: center;
-            padding: 10px 0;
+        /* NATIVE AD ROW */
+        .native-ad-container {
+            grid-column: span 2;
+            width: 100%;
             margin: 10px 0;
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px;
+            min-height: 50px;
         }
 
         #toast { 
@@ -180,57 +176,64 @@
     function renderData(list) {
         const area = document.getElementById('results-area');
         area.innerHTML = '';
+        
         let cardCount = 0;
+        let hasNativeAdShown = false;
 
-        list.forEach((user) => {
-            user.data.forEach(item => {
-                // Card create karna
-                const card = document.createElement('div');
-                card.className = 'prompt-card';
-                card.innerHTML = `
-                    <div class="image-box">
-                        <span class="video-label">▶ REEL</span>
-                        <img src="${item.image}" loading="lazy">
-                    </div>
-                    <div class="content-box">
-                        <div class="prompt-title">/ prompt-text</div>
-                        <div class="btn-group">
-                            <button class="btn-card copy-btn" onclick="copyText(\`${item.prompt}\`)">Copy</button>
-                            <a href="${user.instagram}" target="_blank" class="btn-card watch-btn">Watch</a>
-                        </div>
-                    </div>
-                `;
-                area.appendChild(card);
+        // Native Ad insertion function
+        const insertNativeAd = () => {
+            if (!hasNativeAdShown) {
+                const adDiv = document.createElement('div');
+                adDiv.className = 'native-ad-container';
+                adDiv.id = 'container-15b9c32f55639f994ab49336ecb3dd5c';
                 
-                cardCount++;
+                const script = document.createElement('script');
+                script.async = true;
+                script.setAttribute('data-cfasync', 'false');
+                script.src = '//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js';
+                
+                adDiv.appendChild(script);
+                area.appendChild(adDiv);
+                hasNativeAdShown = true;
+            }
+        };
 
-                // Logic: Har 4 cards ke baad Banner Ad dikhana
-                if (cardCount % 4 === 0) {
-                    const adContainer = document.createElement('div');
-                    adContainer.className = 'ad-row';
-                    
-                    // Adsterra Banner Script
-                    const s1 = document.createElement('script');
-                    s1.type = 'text/javascript';
-                    s1.text = `
-                        atOptions = {
-                            'key' : '72fde79d9999b5b65dfcc0cc7fcf949f',
-                            'format' : 'iframe',
-                            'height' : 90,
-                            'width' : 728,
-                            'params' : {}
-                        };
-                    `;
-                    const s2 = document.createElement('script');
-                    s2.type = 'text/javascript';
-                    s2.src = '//www.highperformanceformat.com/72fde79d9999b5b65dfcc0cc7fcf949f/invoke.js';
-                    
-                    adContainer.appendChild(s1);
-                    adContainer.appendChild(s2);
-                    area.appendChild(adContainer);
-                }
-            });
+        // Total items count check
+        const allItems = [];
+        list.forEach(user => user.data.forEach(item => allItems.push({user, item})));
+
+        if (allItems.length === 0) return;
+
+        allItems.forEach((entry, index) => {
+            const {user, item} = entry;
+            const card = document.createElement('div');
+            card.className = 'prompt-card';
+            card.innerHTML = `
+                <div class="image-box">
+                    <span class="video-label">▶ REEL</span>
+                    <img src="${item.image}" loading="lazy">
+                </div>
+                <div class="content-box">
+                    <div class="prompt-title">/ prompt-text</div>
+                    <div class="btn-group">
+                        <button class="btn-card copy-btn" onclick="copyText(\`${item.prompt}\`)">Copy</button>
+                        <a href="${user.instagram}" target="_blank" class="btn-card watch-btn">Watch</a>
+                    </div>
+                </div>
+            `;
+            area.appendChild(card);
+            cardCount++;
+
+            // Logic: Pehle 2 cards ke baad ad dikhao
+            if (cardCount === 2) {
+                insertNativeAd();
+            }
         });
+
+        // Agar list mein 2 se kam cards hain, toh loop ke baad ad dikhao
+        if (cardCount < 2 && !hasNativeAdShown) {
+            insertNativeAd();
+        }
     }
 
     function handleSearch() {
