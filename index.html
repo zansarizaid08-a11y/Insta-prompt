@@ -92,12 +92,16 @@
         .copy-btn { background: #334155; }
         .watch-btn { background: var(--secondary); }
 
-        /* BANNER AD CONTAINER */
-        .ad-container { 
-            grid-column: span 2; margin: 10px 0;
-            display: flex; justify-content: center; align-items: center;
-            background: rgba(255,255,255,0.02);
-            min-height: 95px; border-radius: 10px; overflow: hidden;
+        /* AD CONTAINER STYLES */
+        .ad-banner-wrapper {
+            grid-column: span 2;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+            background: rgba(0,0,0,0.2);
+            padding: 10px 0;
+            border-radius: 10px;
         }
 
         #toast { 
@@ -131,15 +135,20 @@
             <input type="text" id="search-input" placeholder="Search prompts...">
             <button class="search-btn" onclick="handleSearch()">Search</button>
         </div>
+        
         <a href="https://www.effectivegatecpm.com/z5q9i3x45w?key=06adf9977ec69fdce5fef572556a5d88" target="_blank" class="trending-link">
             🔥 TRENDING AI TOOLS (2026)
         </a>
     </header>
 
+    <div id="container-15b9c32f55639f994ab49336ecb3dd5c" style="margin-bottom: 20px;"></div>
+
     <div id="results-area"></div>
 </div>
 
 <div id="toast">Copied to Clipboard!</div>
+
+<script async="async" data-cfasync="false" src="//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js"></script>
 
 <script>
     let db = [];
@@ -197,15 +206,21 @@
                 area.appendChild(card);
                 cardCounter++;
 
-                // --- 728x90 BANNER AD LOGIC (Every 4 Cards) ---
+                // --- Banner Ad Logic: After every 4 cards ---
                 if (cardCounter % 4 === 0) {
-                    const adDiv = document.createElement('div');
-                    adDiv.className = 'ad-container';
+                    const adWrapper = document.createElement('div');
+                    adWrapper.className = 'ad-banner-wrapper';
                     
-                    // Ad Options as per your screenshot
-                    const adScript = document.createElement('script');
-                    adScript.type = 'text/javascript';
-                    adScript.innerHTML = `
+                    // Generating a unique ID for each ad instance
+                    const adId = 'ad-' + Math.random().toString(36).substr(2, 9);
+                    adWrapper.id = adId;
+
+                    area.appendChild(adWrapper);
+
+                    // Adsterra Banner Script Injection
+                    const scriptConfig = document.createElement('script');
+                    scriptConfig.type = 'text/javascript';
+                    scriptConfig.text = `
                         atOptions = {
                             'key' : '72fde79d9999b5b65dfcc0cc7fcf949f',
                             'format' : 'iframe',
@@ -214,14 +229,12 @@
                             'params' : {}
                         };
                     `;
+                    const scriptInvoke = document.createElement('script');
+                    scriptInvoke.type = 'text/javascript';
+                    scriptInvoke.src = '//www.highperformanceformat.com/72fde79d9999b5b65dfcc0cc7fcf949f/invoke.js';
                     
-                    const adInvoke = document.createElement('script');
-                    adInvoke.type = 'text/javascript';
-                    adInvoke.src = "//www.highperformanceformat.com/72fde79d9999b5b65dfcc0cc7fcf949f/invoke.js";
-
-                    adDiv.appendChild(adScript);
-                    adDiv.appendChild(adInvoke);
-                    area.appendChild(adDiv);
+                    adWrapper.appendChild(scriptConfig);
+                    adWrapper.appendChild(scriptInvoke);
                 }
             });
         });
