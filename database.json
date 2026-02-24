@@ -244,5 +244,15 @@
         "prompt": "\"Ultra-realistic cinematic romantic couple portrait, exact facial identity preserved from reference photos of the man and woman.\n\nMedium close-up framing, intimate indoor setting.\n\nMan sitting behind the woman, gently hugging her from behind with both arms wrapped around her waist, his chin resting near her temple.\n\nWoman leaning back into him, eyes closed, soft peaceful smile.\n\nMan with slightly wavy medium-length hair, light beard, calm protective expression, eyes softly closed or looking down.\n\nWoman with long straight hair falling over one shoulder, natural makeup, serene and content expression.\n\nBoth wearing casual dark-toned clothing, cozy and minimal style.\n\nWarm soft indoor lighting, neutral beige background, shallow depth of field.\n\nEmotional, intimate, comforting mood, feeling of love and safety.\n\nCinematic color grading, soft shadows, smooth skin texture but realistic pores.\n\nShot on DSLR, 85mm lens, f/1.8, high detail, sharp focus, professional film still look,\n\nultra-realistic photography.\n\nNegative Prompt (important):\n\ncartoon, anime, illustration, low quality, blur, extra fingers, distorted hands, over-smoothed skin, plastic face, face mismatch, unrealistic lighting, harsh shadows, exaggerated expressions\n\nCreate image\""
       }
     ]
+  },
+  {
+    "category": "Anime style",
+    "instagram": "https://www.instagram.com/reel/DUBdJkkD4dl/?igsh=end6N2ZuOHdqcHkz",
+    "data": [
+      {
+        "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEil40oBQ6HJAFYWPH7lbbFyHJK_HG-85oEBey_DN96sbzvZ8QjULZA0RJvzkhsXQ5jKUQ0aIZRenGvT9X3fFMq7sDTO_UmFTcKBWJJlStbsqClOlLIEFmdNzLP-63gx95Bk1cQKBE669Nzu55NhYf7ZNOFBqeC8iG_tFzLogFkdd-xJQoLILNs0BwMYa9A/s1169/1000061890.jpg",
+        "prompt": "Create an image of a selfie, without any clear subject or composition-just a random blueish snapshot taken unintentionally. The image should have slight motion blur and consistent lighting from streetlights. Both characters are together in the selfie and the image size ratio is 4:5 and does not change the facial features"
+      }
+    ]
   }
 ]
