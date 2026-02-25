@@ -68,17 +68,34 @@
             gap: 15px; margin-top: 10px;
         }
 
+        /* CARD UPDATE */
         .prompt-card { 
             background: var(--card-bg); border-radius: 15px; overflow: hidden; 
             display: flex; flex-direction: column; border: 1px solid #334155;
+            position: relative;
         }
         .image-box { position: relative; width: 100%; aspect-ratio: 1/1; }
         .image-box img { width: 100%; height: 100%; object-fit: cover; }
         .video-label { 
             position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.7); 
             color: #ff4d4d; border: 1px solid #ff4d4d; padding: 2px 6px; 
-            border-radius: 4px; font-size: 9px; font-weight: bold; 
+            border-radius: 4px; font-size: 9px; font-weight: bold; z-index: 5;
         }
+
+        /* REELS STYLE ACTIONS OVERLAY */
+        .reel-actions-overlay {
+            position: absolute; right: 8px; bottom: 85px; 
+            display: flex; flex-direction: column; gap: 12px; align-items: center;
+            z-index: 10;
+        }
+        .action-btn {
+            background: rgba(15, 23, 42, 0.7); color: white; border: 1px solid rgba(255,255,255,0.2);
+            width: 38px; height: 38px; border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; cursor: pointer;
+            backdrop-filter: blur(4px); transition: 0.2s;
+        }
+        .action-btn:active { transform: scale(0.9); background: var(--secondary); }
+        .action-label { font-size: 8px; font-weight: bold; text-transform: uppercase; margin-top: -8px; color: white; text-shadow: 1px 1px 2px black; }
 
         .content-box { padding: 10px; }
         .prompt-title { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -90,7 +107,7 @@
             text-decoration: none; color: white;
         }
         .copy-btn { background: #334155; }
-        .watch-btn { background: var(--secondary); }
+        .share-btn-main { background: var(--secondary); }
 
         .native-ad-container {
             grid-column: span 2;
@@ -171,23 +188,16 @@
         renderData(filtered);
     }
 
-    // Function to Force Load Native Ad
     function insertNativeAd(targetArea) {
         const adDiv = document.createElement('div');
         adDiv.className = 'native-ad-container';
-        
-        // Har baar naya container ID taaki script refresh ho sake
         const containerId = 'container-15b9c32f55639f994ab49336ecb3dd5c';
         adDiv.id = containerId;
-        
         targetArea.appendChild(adDiv);
-
-        // Ad script ko dynamic inject karna
         const script = document.createElement('script');
         script.async = true;
         script.setAttribute('data-cfasync', 'false');
         script.src = `//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js`;
-        
         adDiv.appendChild(script);
     }
 
@@ -211,33 +221,56 @@
             const {user, item} = entry;
             const card = document.createElement('div');
             card.className = 'prompt-card';
+            
+            // Note: Instagram URL user.instagram se aa rahi hai
+            const reelLink = user.instagram; 
+
             card.innerHTML = `
                 <div class="image-box">
                     <span class="video-label">▶ REEL</span>
                     <img src="${item.image}" loading="lazy">
+                    
+                    <div class="reel-actions-overlay">
+                        <div class="action-btn" onclick="copyText(\`${item.prompt}\`)">📋</div>
+                        <span class="action-label">Prompt</span>
+                        
+                        <div class="action-btn" onclick="shareContent(\`${reelLink}\`)">↗️</div>
+                        <span class="action-label">Share</span>
+                    </div>
                 </div>
                 <div class="content-box">
                     <div class="prompt-title">/ prompt-text</div>
                     <div class="btn-group">
-                        <button class="btn-card copy-btn" onclick="copyText(\`${item.prompt}\`)">Copy</button>
-                        <a href="${user.instagram}" target="_blank" class="btn-card watch-btn">Watch</a>
+                        <button class="btn-card copy-btn" onclick="copyText(\`${item.prompt}\`)">Copy Prompt</button>
+                        <button class="btn-card share-btn-main" onclick="shareContent(\`${reelLink}\`)">Share Link</button>
                     </div>
                 </div>
             `;
             area.appendChild(card);
             cardCount++;
 
-            // Pehle 2 cards ke baad ad
             if (cardCount === 2 && !adInserted) {
                 insertNativeAd(area);
                 adInserted = true;
             }
         });
 
-        // Agar sirf 1 card hai toh uske niche ad
         if (cardCount < 2 && !adInserted) {
             insertNativeAd(area);
             adInserted = true;
+        }
+    }
+
+    function shareContent(url) {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Check out this AI Reel!',
+                text: 'Copy the best AI Prompts from AI Prompt Hub.',
+                url: url
+            }).catch(console.error);
+        } else {
+            copyText(url);
+            alert("Share Link Copied to clipboard!");
         }
     }
 
