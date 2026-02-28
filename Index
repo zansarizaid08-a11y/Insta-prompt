@@ -171,26 +171,21 @@
         renderData(filtered);
     }
 
-    // Function to Force Load Native Ad
     function insertNativeAd(targetArea) {
         const adDiv = document.createElement('div');
         adDiv.className = 'native-ad-container';
-        
-        // Har baar naya container ID taaki script refresh ho sake
         const containerId = 'container-15b9c32f55639f994ab49336ecb3dd5c';
         adDiv.id = containerId;
-        
         targetArea.appendChild(adDiv);
 
-        // Ad script ko dynamic inject karna
         const script = document.createElement('script');
         script.async = true;
         script.setAttribute('data-cfasync', 'false');
         script.src = `//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js`;
-        
         adDiv.appendChild(script);
     }
 
+    // UPDATED: Random Data Rendering Function
     function renderData(list) {
         const area = document.getElementById('results-area');
         area.innerHTML = '';
@@ -199,6 +194,7 @@
         let adInserted = false;
         const allItems = [];
 
+        // Database se saara data extract karke ek list mein daalna
         list.forEach(user => {
             user.data.forEach(item => {
                 allItems.push({user, item});
@@ -207,7 +203,14 @@
 
         if (allItems.length === 0) return;
 
-        allItems.forEach((entry, index) => {
+        // --- RANDOM SHUFFLE LOGIC (Fisher-Yates) ---
+        for (let i = allItems.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [allItems[i], allItems[j]] = [allItems[j], allItems[i]];
+        }
+
+        // Shuffled data ko render karna
+        allItems.forEach((entry) => {
             const {user, item} = entry;
             const card = document.createElement('div');
             card.className = 'prompt-card';
@@ -227,14 +230,12 @@
             area.appendChild(card);
             cardCount++;
 
-            // Pehle 2 cards ke baad ad
             if (cardCount === 2 && !adInserted) {
                 insertNativeAd(area);
                 adInserted = true;
             }
         });
 
-        // Agar sirf 1 card hai toh uske niche ad
         if (cardCount < 2 && !adInserted) {
             insertNativeAd(area);
             adInserted = true;
