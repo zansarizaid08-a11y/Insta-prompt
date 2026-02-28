@@ -57,12 +57,6 @@
         }
         .search-btn { background: var(--secondary); color: white; border: none; padding: 0 20px; border-radius: 10px; cursor: pointer; }
 
-        .trending-link {
-            background:#ef4444; color:white; padding:10px 18px; 
-            border-radius:8px; text-decoration:none; font-weight:bold; 
-            font-size:0.8rem; display: inline-block; margin-bottom: 10px;
-        }
-
         #results-area {
             display: grid; grid-template-columns: repeat(2, 1fr); 
             gap: 15px; margin-top: 10px;
@@ -71,6 +65,7 @@
         .prompt-card { 
             background: var(--card-bg); border-radius: 15px; overflow: hidden; 
             display: flex; flex-direction: column; border: 1px solid #334155;
+            position: relative;
         }
         .image-box { position: relative; width: 100%; aspect-ratio: 1/1; }
         .image-box img { width: 100%; height: 100%; object-fit: cover; }
@@ -78,6 +73,15 @@
             position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.7); 
             color: #ff4d4d; border: 1px solid #ff4d4d; padding: 2px 6px; 
             border-radius: 4px; font-size: 9px; font-weight: bold; 
+        }
+
+        /* Share Icon Style */
+        .share-icon {
+            position: absolute; top: 8px; right: 8px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(5px);
+            border-radius: 50%; width: 30px; height: 30px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: white; border: none; font-size: 14px;
         }
 
         .content-box { padding: 10px; }
@@ -93,10 +97,7 @@
         .watch-btn { background: var(--secondary); }
 
         .native-ad-container {
-            grid-column: span 2;
-            width: 100%;
-            margin: 15px 0;
-            text-align: center;
+            grid-column: span 2; width: 100%; margin: 15px 0; text-align: center;
         }
 
         #toast { 
@@ -130,25 +131,41 @@
             <input type="text" id="search-input" placeholder="Search prompts...">
             <button class="search-btn" onclick="handleSearch()">Search</button>
         </div>
-        <a href="https://www.effectivegatecpm.com/z5q9i3x45w?key=06adf9977ec69fdce5fef572556a5d88" target="_blank" class="trending-link">
-            🔥 TRENDING AI TOOLS (2026)
-        </a>
     </header>
 
     <div id="results-area"></div>
 </div>
 
-<div id="toast">Copied to Clipboard!</div>
+<div id="toast">Link Copied!</div>
 
 <script>
     let db = [];
+    let allItemsRaw = [];
 
     async function init() {
         try {
             const res = await fetch('./database.json');
-            if(res.ok) { db = await res.json(); }
+            if(res.ok) { 
+                db = await res.json(); 
+                // Flat list banana taaki indexing aasaan ho
+                db.forEach(user => {
+                    user.data.forEach((item, index) => {
+                        // Har item ko ek unique id dena image ke naam se ya index se
+                        const uniqueId = btoa(item.image).substring(0, 8); 
+                        allItemsRaw.push({user, item, id: uniqueId});
+                    });
+                });
+            }
             createCategoryButtons();
-            renderData(db);
+            
+            // Check if URL has a specific prompt ID
+            const hash = window.location.hash.replace('#', '');
+            if(hash) {
+                const singleItem = allItemsRaw.filter(i => i.id === hash);
+                renderData(singleItem, false); // Shuffling nahi karni agar direct link ho
+            } else {
+                renderData(db, true);
+            }
         } catch (e) { console.error("Error loading database"); }
     }
 
@@ -168,94 +185,89 @@
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const filtered = (category === 'All') ? db : db.filter(item => item.category === category);
-        renderData(filtered);
+        window.location.hash = ''; // Clear hash on filter
+        renderData(filtered, true);
     }
 
-    function insertNativeAd(targetArea) {
-        const adDiv = document.createElement('div');
-        adDiv.className = 'native-ad-container';
-        const containerId = 'container-15b9c32f55639f994ab49336ecb3dd5c';
-        adDiv.id = containerId;
-        targetArea.appendChild(adDiv);
-
-        const script = document.createElement('script');
-        script.async = true;
-        script.setAttribute('data-cfasync', 'false');
-        script.src = `//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js`;
-        adDiv.appendChild(script);
-    }
-
-    // UPDATED: Random Data Rendering Function
-    function renderData(list) {
+    function renderData(list, shouldShuffle) {
         const area = document.getElementById('results-area');
         area.innerHTML = '';
         
-        let cardCount = 0;
-        let adInserted = false;
-        const allItems = [];
-
-        // Database se saara data extract karke ek list mein daalna
-        list.forEach(user => {
-            user.data.forEach(item => {
-                allItems.push({user, item});
+        let displayList = [];
+        if(list.length > 0 && list[0].id) {
+            displayList = list; // Already flattened
+        } else {
+            list.forEach(user => {
+                user.data.forEach(item => {
+                    const uniqueId = btoa(item.image).substring(0, 8);
+                    displayList.push({user, item, id: uniqueId});
+                });
             });
-        });
-
-        if (allItems.length === 0) return;
-
-        // --- RANDOM SHUFFLE LOGIC (Fisher-Yates) ---
-        for (let i = allItems.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [allItems[i], allItems[j]] = [allItems[j], allItems[i]];
         }
 
-        // Shuffled data ko render karna
-        allItems.forEach((entry) => {
-            const {user, item} = entry;
+        if (shouldShuffle) {
+            for (let i = displayList.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [displayList[i], displayList[j]] = [displayList[j], displayList[i]];
+            }
+        }
+
+        displayList.forEach((entry, index) => {
+            const {user, item, id} = entry;
             const card = document.createElement('div');
             card.className = 'prompt-card';
             card.innerHTML = `
                 <div class="image-box">
                     <span class="video-label">▶ REEL</span>
+                    <button class="share-icon" onclick="sharePrompt('${id}')">🔗</button>
                     <img src="${item.image}" loading="lazy">
                 </div>
                 <div class="content-box">
                     <div class="prompt-title">/ prompt-text</div>
                     <div class="btn-group">
-                        <button class="btn-card copy-btn" onclick="copyText(\`${item.prompt}\`)">Copy</button>
+                        <button class="btn-card copy-btn" onclick="copyText(\`${item.prompt}\`, 'Prompt Copied!')">Copy</button>
                         <a href="${user.instagram}" target="_blank" class="btn-card watch-btn">Watch</a>
                     </div>
                 </div>
             `;
             area.appendChild(card);
-            cardCount++;
-
-            if (cardCount === 2 && !adInserted) {
-                insertNativeAd(area);
-                adInserted = true;
-            }
+            
+            if (index === 1) insertNativeAd(area);
         });
+    }
 
-        if (cardCount < 2 && !adInserted) {
-            insertNativeAd(area);
-            adInserted = true;
-        }
+    function sharePrompt(id) {
+        const shareLink = window.location.origin + window.location.pathname + '#' + id;
+        copyText(shareLink, 'Share Link Copied!');
+    }
+
+    function copyText(txt, msg) {
+        navigator.clipboard.writeText(txt);
+        const t = document.getElementById('toast');
+        t.innerText = msg;
+        t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 2000);
     }
 
     function handleSearch() {
         const val = document.getElementById('search-input').value.toLowerCase();
-        const filtered = db.filter(u => 
-            u.instagram.toLowerCase().includes(val) || 
-            u.data.some(d => d.prompt.toLowerCase().includes(val))
+        const filtered = allItemsRaw.filter(entry => 
+            entry.user.instagram.toLowerCase().includes(val) || 
+            entry.item.prompt.toLowerCase().includes(val)
         );
-        renderData(filtered);
+        renderData(filtered, false);
     }
 
-    function copyText(txt) {
-        navigator.clipboard.writeText(txt);
-        const t = document.getElementById('toast');
-        t.style.display = 'block';
-        setTimeout(() => t.style.display = 'none', 2000);
+    function insertNativeAd(targetArea) {
+        const adDiv = document.createElement('div');
+        adDiv.className = 'native-ad-container';
+        adDiv.id = 'container-15b9c32f55639f994ab49336ecb3dd5c';
+        targetArea.appendChild(adDiv);
+        const script = document.createElement('script');
+        script.async = true;
+        script.setAttribute('data-cfasync', 'false');
+        script.src = `//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js`;
+        adDiv.appendChild(script);
     }
 
     window.onload = init;
