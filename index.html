@@ -74,7 +74,6 @@
             position: relative;
         }
         
-        /* Special style for linked prompt */
         .prompt-card.featured {
             border: 2px solid #a5b4fc;
             box-shadow: 0 0 15px rgba(165, 180, 252, 0.3);
@@ -83,11 +82,13 @@
         .image-box { position: relative; width: 100%; aspect-ratio: 1/1; }
         .image-box img { width: 100%; height: 100%; object-fit: cover; }
         
+        /* Updated Share Icon Style */
         .share-icon-btn {
             position: absolute; top: 8px; right: 8px;
             background: rgba(0,0,0,0.6); color: white; border: none;
-            width: 28px; height: 28px; border-radius: 50%;
-            cursor: pointer; font-size: 14px; z-index: 5;
+            width: 32px; height: 32px; border-radius: 50%;
+            cursor: pointer; font-size: 16px; z-index: 5;
+            display: flex; align-items: center; justify-content: center;
         }
 
         .video-label { 
@@ -149,7 +150,7 @@
     <div id="results-area"></div>
 </div>
 
-<div id="toast">Copied!</div>
+<div id="toast">Action Successful!</div>
 
 <script>
     let db = [];
@@ -159,8 +160,6 @@
             const res = await fetch('./database.json');
             if(res.ok) { db = await res.json(); }
             createCategoryButtons();
-            
-            // Check for ID in URL
             const urlId = window.location.hash.replace('#', '');
             renderData(db, urlId);
         } catch (e) { console.error("Error loading database"); }
@@ -182,7 +181,6 @@
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const filtered = (category === 'All') ? db : db.filter(item => item.category === category);
-        // If filter is changed, we don't force the URL ID anymore
         renderData(filtered, null);
     }
 
@@ -190,15 +188,11 @@
         const area = document.getElementById('results-area');
         area.innerHTML = '';
         
-        let cardCount = 0;
-        let adInserted = false;
-        
         let allItems = [];
         let priorityItem = null;
         let relatedItems = [];
         let restItems = [];
 
-        // 1. Sabse pehle saara data process karein
         list.forEach(user => {
             user.data.forEach(item => {
                 const entry = {user, item};
@@ -210,7 +204,6 @@
             });
         });
 
-        // 2. Agar priority item mil gaya, to uske user ke baaki items alag karein
         if (priorityItem) {
             relatedItems = allItems.filter(entry => entry.user.instagram === priorityItem.user.instagram);
             restItems = allItems.filter(entry => entry.user.instagram !== priorityItem.user.instagram);
@@ -218,21 +211,19 @@
             restItems = allItems;
         }
 
-        // 3. Rest items ko shuffle karein
         for (let i = restItems.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [restItems[i], restItems[j]] = [restItems[j], restItems[i]];
         }
 
-        // 4. Final list assembly: [Priority] + [Related] + [Shuffled Rest]
         const finalList = [];
         if (priorityItem) finalList.push(priorityItem);
         finalList.push(...relatedItems);
         finalList.push(...restItems);
 
-        if (finalList.length === 0) return;
+        let cardCount = 0;
+        let adInserted = false;
 
-        // 5. Render
         finalList.forEach((entry) => {
             const {user, item} = entry;
             const isFeatured = (targetId && item.id === targetId) ? 'featured' : '';
@@ -242,7 +233,7 @@
             card.innerHTML = `
                 <div class="image-box">
                     <span class="video-label">▶ REEL</span>
-                    <button class="share-icon-btn" onclick="copyLink('${item.id}')">🔗</button>
+                    <button class="share-icon-btn" onclick="sharePrompt('${item.id}', '${item.prompt}')">🔗</button>
                     <img src="${item.image}" loading="lazy">
                 </div>
                 <div class="content-box">
@@ -263,10 +254,25 @@
         });
     }
 
-    function copyLink(id) {
-        const link = window.location.origin + window.location.pathname + '#' + id;
-        navigator.clipboard.writeText(link);
-        showToast("Link Copied!");
+    // --- NEW LOGIC: Native Share + Copy Fallback ---
+    async function sharePrompt(id, promptText) {
+        const shareUrl = window.location.origin + window.location.pathname + '#' + id;
+        
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'Check out this AI Prompt!',
+                    text: 'Hey! Look at this amazing AI prompt I found:',
+                    url: shareUrl,
+                });
+            } catch (err) {
+                console.log('Error sharing:', err);
+            }
+        } else {
+            // Fallback: Agar browser share support nahi karta toh link copy kar do
+            navigator.clipboard.writeText(shareUrl);
+            showToast("Link Copied!");
+        }
     }
 
     function copyText(txt) {
