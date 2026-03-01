@@ -82,7 +82,6 @@
         .image-box { position: relative; width: 100%; aspect-ratio: 1/1; }
         .image-box img { width: 100%; height: 100%; object-fit: cover; }
         
-        /* Updated Share Icon Style */
         .share-icon-btn {
             position: absolute; top: 8px; right: 8px;
             background: rgba(0,0,0,0.6); color: white; border: none;
@@ -228,18 +227,21 @@
             const {user, item} = entry;
             const isFeatured = (targetId && item.id === targetId) ? 'featured' : '';
             
+            // Fix: Encapsulate prompt in a way that doesn't break HTML attributes
+            const safePrompt = item.prompt.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
             const card = document.createElement('div');
             card.className = `prompt-card ${isFeatured}`;
             card.innerHTML = `
                 <div class="image-box">
                     <span class="video-label">▶ REEL</span>
-                    <button class="share-icon-btn" onclick="sharePrompt('${item.id}', '${item.prompt}')">🔗</button>
+                    <button class="share-icon-btn" onclick="sharePrompt('${item.id}')">🔗</button>
                     <img src="${item.image}" loading="lazy">
                 </div>
                 <div class="content-box">
                     <div class="prompt-title">/ prompt-text</div>
                     <div class="btn-group">
-                        <button class="btn-card copy-btn" onclick="copyText(\`${item.prompt}\`)">Copy</button>
+                        <button class="btn-card copy-btn" data-text="${safePrompt}" onclick="copyPrompt(this)">Copy</button>
                         <a href="${user.instagram}" target="_blank" class="btn-card watch-btn">Watch</a>
                     </div>
                 </div>
@@ -254,29 +256,43 @@
         });
     }
 
-    // --- NEW LOGIC: Native Share + Copy Fallback ---
-    async function sharePrompt(id, promptText) {
+    async function sharePrompt(id) {
         const shareUrl = window.location.origin + window.location.pathname + '#' + id;
-        
         if (navigator.share) {
             try {
                 await navigator.share({
-                    title: 'Check out this AI Prompt!',
-                    text: 'Hey! Look at this amazing AI prompt I found:',
+                    title: 'AI Prompt Hub',
+                    text: 'Look at this amazing AI prompt!',
                     url: shareUrl,
                 });
-            } catch (err) {
-                console.log('Error sharing:', err);
-            }
+            } catch (err) { console.log(err); }
         } else {
-            // Fallback: Agar browser share support nahi karta toh link copy kar do
             navigator.clipboard.writeText(shareUrl);
             showToast("Link Copied!");
         }
     }
 
-    function copyText(txt) {
-        navigator.clipboard.writeText(txt);
+    // New Reliable Copy Function
+    function copyPrompt(btn) {
+        const text = btn.getAttribute('data-text');
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Prompt Copied!");
+            }).catch(err => {
+                fallbackCopy(text);
+            });
+        } else {
+            fallbackCopy(text);
+        }
+    }
+
+    function fallbackCopy(text) {
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
         showToast("Prompt Copied!");
     }
 
