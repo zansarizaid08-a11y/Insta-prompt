@@ -723,5 +723,16 @@
         "id": "p262612908"
       }
     ]
+  },
+  {
+    "category": "Aesthetic",
+    "instagram": "https://www.instagram.com/reel/DVQQ578CDnI/?igsh=MTY1ZXF4YW9pbzA3aQ==",
+    "data": [
+      {
+        "id": "p526948946",
+        "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgXIWqC9BYgAMw22VNDIimymLWWkmD25ogQUacudHJ8IHg5UPs-K8PQMByEX8Gs5jX3m9DjPlFzRcbgAdjrmpsVHGLiYzDoFZwMiKatTiWuVH4SJ2NqI5a9ML6DkVYTxf80KcCiZc_OOyjM6_v6YvBO_norr05-Bwl604cgehrLPUUO7QHWohl6kFV1a5Y/s1371/1000063086.jpg",
+        "prompt": "Transform the subject(s) from the uploaded image(s) into a realistic 3D character model suitable for the Grand Theft Auto V gameplay environment, while preserving the exact pose, body positioning, facial expression, and camera framing from the original image.Pose & Composition (STRICT): Replicate the same: • Body posture and stance • Arm and hand positions • Head tilt and gaze direction • Camera angle and cropIf any parts of the body are not visible, reconstruct them naturally while maintaining the same upper-body pose and perspective.Style & Aesthetic: GTA V in-game realism with slightly stylized proportions, realistic skin shading, natural facial textures, and clothing converted into detailed game-ready materials with stitching, folds, and subtle wear. Lighting should match typical Los Santos daylight or urban ambient lighting."
+      }
+    ]
   }
 ]
