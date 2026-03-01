@@ -71,9 +71,25 @@
         .prompt-card { 
             background: var(--card-bg); border-radius: 15px; overflow: hidden; 
             display: flex; flex-direction: column; border: 1px solid #334155;
+            position: relative;
         }
+        
+        /* Special style for linked prompt */
+        .prompt-card.featured {
+            border: 2px solid #a5b4fc;
+            box-shadow: 0 0 15px rgba(165, 180, 252, 0.3);
+        }
+
         .image-box { position: relative; width: 100%; aspect-ratio: 1/1; }
         .image-box img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .share-icon-btn {
+            position: absolute; top: 8px; right: 8px;
+            background: rgba(0,0,0,0.6); color: white; border: none;
+            width: 28px; height: 28px; border-radius: 50%;
+            cursor: pointer; font-size: 14px; z-index: 5;
+        }
+
         .video-label { 
             position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.7); 
             color: #ff4d4d; border: 1px solid #ff4d4d; padding: 2px 6px; 
@@ -92,12 +108,7 @@
         .copy-btn { background: #334155; }
         .watch-btn { background: var(--secondary); }
 
-        .native-ad-container {
-            grid-column: span 2;
-            width: 100%;
-            margin: 15px 0;
-            text-align: center;
-        }
+        .native-ad-container { grid-column: span 2; width: 100%; margin: 15px 0; text-align: center; }
 
         #toast { 
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
@@ -138,7 +149,7 @@
     <div id="results-area"></div>
 </div>
 
-<div id="toast">Copied to Clipboard!</div>
+<div id="toast">Copied!</div>
 
 <script>
     let db = [];
@@ -148,7 +159,10 @@
             const res = await fetch('./database.json');
             if(res.ok) { db = await res.json(); }
             createCategoryButtons();
-            renderData(db);
+            
+            // Check for ID in URL
+            const urlId = window.location.hash.replace('#', '');
+            renderData(db, urlId);
         } catch (e) { console.error("Error loading database"); }
     }
 
@@ -168,55 +182,67 @@
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const filtered = (category === 'All') ? db : db.filter(item => item.category === category);
-        renderData(filtered);
+        // If filter is changed, we don't force the URL ID anymore
+        renderData(filtered, null);
     }
 
-    function insertNativeAd(targetArea) {
-        const adDiv = document.createElement('div');
-        adDiv.className = 'native-ad-container';
-        const containerId = 'container-15b9c32f55639f994ab49336ecb3dd5c';
-        adDiv.id = containerId;
-        targetArea.appendChild(adDiv);
-
-        const script = document.createElement('script');
-        script.async = true;
-        script.setAttribute('data-cfasync', 'false');
-        script.src = `//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js`;
-        adDiv.appendChild(script);
-    }
-
-    // UPDATED: Random Data Rendering Function
-    function renderData(list) {
+    function renderData(list, targetId = null) {
         const area = document.getElementById('results-area');
         area.innerHTML = '';
         
         let cardCount = 0;
         let adInserted = false;
-        const allItems = [];
+        
+        let allItems = [];
+        let priorityItem = null;
+        let relatedItems = [];
+        let restItems = [];
 
-        // Database se saara data extract karke ek list mein daalna
+        // 1. Sabse pehle saara data process karein
         list.forEach(user => {
             user.data.forEach(item => {
-                allItems.push({user, item});
+                const entry = {user, item};
+                if (targetId && item.id === targetId) {
+                    priorityItem = entry;
+                } else {
+                    allItems.push(entry);
+                }
             });
         });
 
-        if (allItems.length === 0) return;
-
-        // --- RANDOM SHUFFLE LOGIC (Fisher-Yates) ---
-        for (let i = allItems.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [allItems[i], allItems[j]] = [allItems[j], allItems[i]];
+        // 2. Agar priority item mil gaya, to uske user ke baaki items alag karein
+        if (priorityItem) {
+            relatedItems = allItems.filter(entry => entry.user.instagram === priorityItem.user.instagram);
+            restItems = allItems.filter(entry => entry.user.instagram !== priorityItem.user.instagram);
+        } else {
+            restItems = allItems;
         }
 
-        // Shuffled data ko render karna
-        allItems.forEach((entry) => {
+        // 3. Rest items ko shuffle karein
+        for (let i = restItems.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [restItems[i], restItems[j]] = [restItems[j], restItems[i]];
+        }
+
+        // 4. Final list assembly: [Priority] + [Related] + [Shuffled Rest]
+        const finalList = [];
+        if (priorityItem) finalList.push(priorityItem);
+        finalList.push(...relatedItems);
+        finalList.push(...restItems);
+
+        if (finalList.length === 0) return;
+
+        // 5. Render
+        finalList.forEach((entry) => {
             const {user, item} = entry;
+            const isFeatured = (targetId && item.id === targetId) ? 'featured' : '';
+            
             const card = document.createElement('div');
-            card.className = 'prompt-card';
+            card.className = `prompt-card ${isFeatured}`;
             card.innerHTML = `
                 <div class="image-box">
                     <span class="video-label">▶ REEL</span>
+                    <button class="share-icon-btn" onclick="copyLink('${item.id}')">🔗</button>
                     <img src="${item.image}" loading="lazy">
                 </div>
                 <div class="content-box">
@@ -235,11 +261,35 @@
                 adInserted = true;
             }
         });
+    }
 
-        if (cardCount < 2 && !adInserted) {
-            insertNativeAd(area);
-            adInserted = true;
-        }
+    function copyLink(id) {
+        const link = window.location.origin + window.location.pathname + '#' + id;
+        navigator.clipboard.writeText(link);
+        showToast("Link Copied!");
+    }
+
+    function copyText(txt) {
+        navigator.clipboard.writeText(txt);
+        showToast("Prompt Copied!");
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.innerText = msg;
+        t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 2000);
+    }
+
+    function insertNativeAd(targetArea) {
+        const adDiv = document.createElement('div');
+        adDiv.className = 'native-ad-container';
+        adDiv.id = 'container-15b9c32f55639f994ab49336ecb3dd5c';
+        targetArea.appendChild(adDiv);
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `//pl28750234.effectivegatecpm.com/15b9c32f55639f994ab49336ecb3dd5c/invoke.js`;
+        adDiv.appendChild(script);
     }
 
     function handleSearch() {
@@ -248,14 +298,7 @@
             u.instagram.toLowerCase().includes(val) || 
             u.data.some(d => d.prompt.toLowerCase().includes(val))
         );
-        renderData(filtered);
-    }
-
-    function copyText(txt) {
-        navigator.clipboard.writeText(txt);
-        const t = document.getElementById('toast');
-        t.style.display = 'block';
-        setTimeout(() => t.style.display = 'none', 2000);
+        renderData(filtered, null);
     }
 
     window.onload = init;
