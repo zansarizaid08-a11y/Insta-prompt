@@ -1582,5 +1582,16 @@
         "prompt": "A hyper-realistic portrait of the uploaded young man inside a giant Instagram post frame that dominates the scene.\n\nHis face remains same, sharp and untouched, wearing dark sunglasses and sleek shoes, exuding bold charisma. is relaxed pose shows his right elbow resting on his knee, left arm casual, and one leg stepping out of the Instagram frame in a 3D illusion. The Instagram frame is highly realistic with username ai.image_07, verified checkmark, display name \"Google Gemini\", caption:"
       }
     ]
+  },
+  {
+    "category": "Love",
+    "instagram": "https://www.instagram.com/reel/DT75itYD-9c/?igsh=Ymx5NTg5NDNlN296",
+    "data": [
+      {
+        "id": "p379063326",
+        "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi4gn5cLIQvsB9F-zCWwUJIsF0WUTiuNdf3J3cyCDnXX_tYy6ns2Uaj5ASqTbKqILbm0o1Jntjl98sDeSHpRdolDRED9Fc3OBm0zP_hy0MdCL-cM0IBeLHUWKpO7HA-DG9oevckslaSe7oSixlsoDWZfU9hbZp9SXUJrrdZLm_gIV7ZPms3r6GKn0eKy-M/s1368/1000064004.jpg",
+        "prompt": "Use my uploaded photo as the single and exclusive identity source for me. \nI must remain fully photoreal human. Absolute realism lock: real skin texture, pores, beard \ndensity, facial asymmetry, hair strands, age cues, DSLR lighting, real fabric physics. \nNo anime stylization on me. No illustration lines. No smoothing. No repainting. \nRecreate the exact pose and body language from the reference image with Reze from \nChainsaw Man. \nPose & Composition (Locked) \nFull-body or medium-full framing. \nI stand on the left, Reze on the right. \nBoth leaning slightly inward. \nBoth raising one hand in a peace sign (V) near shoulder/face level. \nCasual, playful stance. \nNatural closeness, friendly, cute energy. \nCharacter Rules \nMe (Denji role, human): \nExact face and hair from my uploaded photo. \nWhite button-up shirt, sleeves slightly rolled. \nBlack tie, black trousers, brown belt. \nNatural posture, relaxed shoulders. \nSoft smile, human expression. \nReal lighting and depth. \nReze (anime locked): \nPure anime style, unchanged. \nShort dark-purple hair tied back. \nGreen eyes. \nSleeveless white top with black ribbon bow. \nBlack shorts, thigh-high stockings. \nFlat anime shading, clean outlines. \nNo realism added. \nStyling Consistency \nOptional small flower pinned on both outfits (anime-style flower on Reze, realistic flower on me). \nColor harmony preserved between anime and real subject. \nBackground & Light \nPlain white or clean neutral background. \nSoft even lighting. \nNo dramatic shadows. \nNo clutter.\nStyle Enforcement (Critical)\n\nTwo-style coexistence only:\n\nReze anime.\n\nMe real human.\n\nDo not merge styles.\n\nDo not convert my face to anime.\n\nOutput\n\nUltra-high resolution. Sharp focus. Cinematic clarity. Vertical 4:5 or 9:16.\n\nNo text. No watermark. No signature."
+      }
+    ]
   }
 ]
